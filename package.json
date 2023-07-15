@@ -1,0 +1,32 @@
+{
+  "name": "lujun-monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "lint-staged",
+    "syncpack": "syncpack & syncpack fix-mismatches"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-git": "^0.1.3",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.15.1",
+    "husky": "^8.0.3",
+    "lerna": "^7.1.1",
+    "lint-staged": "^13.2.3",
+    "prettier": "^2.8.8",
+    "syncpack": "^10.6.1",
+    "typescript": "^5.1.6"
+  },
+  "lint-staged": {
+    "*.js": "eslint",
+    "*.vue": "eslint",
+    "*.ts": "eslint"
+  }
+}

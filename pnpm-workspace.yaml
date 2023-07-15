@@ -1,0 +1,9 @@
+packages:
+  - 'apps/*' # 匹配要包含在工作区中的目录
+  - 'packages/*' # 匹配要包含在工作区中的目录
+
+# 可选的配置选项
+# registry: 'https://registry.npmjs.org' # 定义用于安装包的注册表
+# save-workspace-protocol: 'npm' # 定义保存依赖关系的协议
+# save-workspace-lockfile: true # 是否在工作区根目录下保存锁定文件
+# use-beta-cli: true # 是否使用 pnpm beta 版本的 CLI
