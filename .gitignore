@@ -9,10 +9,10 @@ lerna-debug.log*
 
 node_modules/
 packages/*/node_modules
-projects/*/node_modules
+apps/*/node_modules
 dist
 packages/*/dist
-projects/*/dist
+apps/*/dist
 dist.zip
 
 .idea
@@ -22,7 +22,3 @@ dist.zip
 *.njsproj
 *.sln
 *.sw?
-
-# projects/own-docs
-projects/own-docs/docs/.vuepress/.cache
-projects/own-docs/docs/.vuepress/.temp
