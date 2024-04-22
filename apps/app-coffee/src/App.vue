@@ -10,4 +10,7 @@ onHide(() => {
   console.log("App Hide");
 });
 </script>
-<style></style>
+<style>
+@import "wxcomponents/dist/common/index.wxss";
+
+</style>

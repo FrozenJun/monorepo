@@ -10,6 +10,10 @@
   ],
   "globalStyle": {
     "navigationStyle": "custom",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "usingComponents": {
+      "van-button": "wxcomponents/dist/button/index",
+      "van-checkbox": "wxcomponents/dist/checkbox/index"
+    }
   }
 }
