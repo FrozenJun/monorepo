@@ -8,6 +8,10 @@ module.exports = {
     'vue/setup-compiler-macros': true,
   },
 
+  globals: {
+    wx: 'readonly', // 或者 "writable"，取决于你是否需要写入 `wx`
+  },
+
   parser: 'vue-eslint-parser',
   parserOptions: {
     parser: '@typescript-eslint/parser',

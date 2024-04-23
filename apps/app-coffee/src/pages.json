@@ -2,18 +2,41 @@
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
-      "path": "pages/index/index",
+      "path": "pages/auth/login"
+    },
+    {
+      "path": "pages/auth/phone"
+    },
+    {
+      "path": "pages/protocols/coffee-protocol",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationStyle": "default",
+        "navigationBarTitleText": "耀美咖啡用户协议"
+      }
+    },
+    {
+      "path": "pages/protocols/privacy-protocol",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "隐私协议"
+      }
+    },
+    {
+      "path": "pages/protocols/pay-protocol",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "支付协议"
       }
     }
   ],
   "globalStyle": {
     "navigationStyle": "custom",
+    "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
     "usingComponents": {
-      "van-button": "wxcomponents/dist/button/index",
-      "van-checkbox": "wxcomponents/dist/checkbox/index"
+      "van-button": "/wxcomponents/dist/button/index",
+      "van-checkbox": "/wxcomponents/dist/checkbox/index",
+      "van-field": "/wxcomponents/dist/field/index"
     }
   }
 }
