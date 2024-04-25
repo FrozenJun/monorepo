@@ -1,0 +1,6 @@
+$theme: (
+  color-primary: green,
+);
+
+// register the theme
+$nb-themes: nb-register-theme($theme, 'test');

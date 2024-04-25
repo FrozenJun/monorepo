@@ -22,10 +22,12 @@
       center
       clearable
     >
-      <span @click="sendCode" slot="button">发送验证码</span>
+      <span @click="sendCode" slot="button">获取验证码</span>
     </van-field>
 
     <protocol></protocol>
+
+    <van-button @click="onRegister" block round>确定</van-button>
   </view>
 </template>
 
@@ -37,6 +39,8 @@ const phone = ref('')
 const code = ref('')
 
 function sendCode() {}
+
+function onRegister() {}
 </script>
 
 <style lang="scss">
@@ -84,7 +88,7 @@ function sendCode() {}
     width: 654rpx;
     height: 96rpx;
     border-radius: 48rpx;
-    margin: 0 48rpx 46rpx;
+    margin: 48rpx;
 
     font-family: PingFangSC, PingFang SC;
     font-weight: 500;

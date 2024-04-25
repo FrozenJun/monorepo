@@ -1,0 +1,48 @@
+.animation-blink {
+  animation: animationBlink 1s steps(5, start) infinite;
+}
+
+@keyframes animationBlink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.animation-rotate {
+  animation: animationRotate 1s steps(5, start) infinite;
+}
+@keyframes animationRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animation-height {
+  animation: animationHeight 1s steps(5, start) infinite;
+}
+@keyframes animationHeight {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+.animation-opacity {
+  animation: animationOpacity 1s steps(5, start) infinite;
+}
+@keyframes animationOpacity {
+  from {
+    opacity: 0;
+  }
+  50% {
+    opacity: 100%;
+  }
+  to {
+    opacity: 0;
+  }
+}

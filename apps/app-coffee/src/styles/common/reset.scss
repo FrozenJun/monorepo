@@ -1,0 +1,103 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  // min-height: 1200px;
+  background: #fff;
+  overflow-x: hidden;
+  -moz-osx-font-smoothing: grayscale; // 抗锯齿
+  -webkit-font-smoothing: antialiased; // 抗锯齿
+  text-rendering: optimizeLegibility; // 文本渲染属性 - 侧重文本的可读性（清晰度）
+  font-family: Avenir, 'PingFang SC', 'PingFang-SC-Medium', Helvetica Neue, Helvetica,
+    'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+
+  // 有标准的滚动条样式chrome自己的就不会生效
+  // scrollbar-color: rgba(0, 0, 0, 0.3) #6e6e6e;
+  // scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 0.04rem;
+    height: 0.06rem;
+  }
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0.06rem rgba(0, 0, 0, 0.3);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #6e6e6e;
+  }
+}
+
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+em,
+pre,
+figcaption,
+figure,
+fieldset,
+legend,
+button,
+input,
+textarea,
+th,
+td,
+canvas img {
+  box-sizing: border-box;
+}
+canvas {
+  border: none;
+  outline: none;
+}
+ul {
+  list-style: none;
+}
+
+li {
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+fieldset {
+  border: none;
+}
+
+section {
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
+
+/* 修改选中后的文字背景颜色为主题颜色
+-------------------------- */
+// ::-moz-selection{background: $--color-primary; color: $--color-white;}
+// ::selection {background: $--color-primary; color: $--color-white;}
