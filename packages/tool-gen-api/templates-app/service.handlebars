@@ -1,0 +1,15 @@
+/* tslint:disable */
+/* eslint-disable */
+import { HttpAppSend } from '@packages/http'
+
+{{#imports}}import { {{{typeName}}}{{#useAlias}} as {{{qualifiedName}}}{{/useAlias}} } from '{{{file}}}';
+{{/imports}}
+
+{{{tsComments}}}class {{typeName}} {
+
+{{#operations}}
+{{#variants}}{{>customServicePartial}}{{/variants}}
+{{/operations}}
+}
+
+export const {{{typeName}}}Service = new {{typeName}}()

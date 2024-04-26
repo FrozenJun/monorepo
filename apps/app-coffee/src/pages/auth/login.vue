@@ -10,8 +10,21 @@
 </template>
 
 <script setup lang="ts">
+import { AuthAPIService } from '@/app/api/services/auth-api'
 import protocol from '@/components/protocol.vue'
-function auth() {}
+import Toast from '@/wxcomponents/toast/toast'
+
+function auth() {
+  wx.login({
+    async success(code: string) {
+      const { e, data } = await AuthAPIService.authControllerMemberLogin({ code })
+      if (e) return
+    },
+    fail() {
+      Toast.fail('一键登录失败')
+    },
+  })
+}
 
 function navigateToPhone() {
   wx.navigateTo({ url: '/pages/auth/phone' })

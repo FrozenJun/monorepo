@@ -1,0 +1,5 @@
+{
+  "serviceSuffix": "API",
+  "templates": "../../packages/tool-gen-api/templates-app",
+  "indexFile": true
+}

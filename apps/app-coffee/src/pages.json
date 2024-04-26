@@ -41,7 +41,8 @@
       "van-checkbox": "/wxcomponents/dist/checkbox/index",
       "van-field": "/wxcomponents/dist/field/index",
       "van-tabbar": "/wxcomponents/dist/tabbar/index",
-      "van-tabbar-item": "/wxcomponents/dist/tabbar-item/index"
+      "van-tabbar-item": "/wxcomponents/dist/tabbar-item/index",
+      "van-toast": "/wxcomponents/dist/toast/index"
     }
   }
 }

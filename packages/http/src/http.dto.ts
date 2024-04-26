@@ -1,4 +1,5 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { HttpRequestConfig, HttpResponse } from 'luch-request'
 
 export type HTTP_METHODS = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD'
 export type HTTP_BODY_TYPES = 'RAW_JSON' | 'FORM_DATA' | 'X_WWW_FORM_URLENCODED'
@@ -40,6 +41,31 @@ export interface HttpSendOption extends AxiosRequestConfig {
     httpStatus: number
   ) => void | Promise<void>
   onRequest?(options: HttpSendOption): HttpSendOption | Promise<HttpSendOption>
+
+  /** MOCK相关 */
+  mock?: HttpMockType
+
+  /** 自定义设置 */
+  extra?: Record<string, any>
+
+  // 延迟操作(秒)
+  delay?: number
+}
+/**
+ * 小程序请求参数类型
+ */
+export interface HttpAppSendOption extends HttpRequestConfig {
+  bodyType?: HTTP_BODY_TYPES
+  onResponse?(
+    res: HttpResponse<Record<string, any>>,
+    option: HttpSendOption
+  ): HttpReturnType | Promise<HttpReturnType>
+  onError?: (
+    res: Record<string, any>,
+    option: HttpSendOption,
+    httpStatus: number
+  ) => void | Promise<void>
+  onRequest?(options: HttpAppSendOption): HttpAppSendOption | Promise<HttpAppSendOption>
 
   /** MOCK相关 */
   mock?: HttpMockType
