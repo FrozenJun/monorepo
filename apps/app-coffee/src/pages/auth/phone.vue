@@ -1,18 +1,20 @@
 <template>
   <view class="phone">
-    <image class="logo" src="/static/bg@2x.png" />
+    <back></back>
+
+    <image class="phone__logo" src="/static/bg@2x.png" />
 
     <van-field
-      class="field"
+      class="phone__field"
       :value="phone"
       name="phone"
       placeholder="请输入新的手机号码"
       :border="false"
       @change="phone = $event.detail"
-      error-message="手机号格式错误"
+      :error-message="errorMessage"
     />
     <van-field
-      class="field"
+      class="phone__field"
       :value="code"
       name="code"
       placeholder="请输入手机验证码"
@@ -22,29 +24,83 @@
       center
       clearable
     >
-      <span @click="sendCode" slot="button">获取验证码</span>
+      <span class="code" :class="[codeDisabled && 'is-disabed']" @click="sendCode" slot="button">{{
+        codeText
+      }}</span>
     </van-field>
 
-    <protocol></protocol>
+    <protocol @checked-change="onCheckedChange"></protocol>
 
-    <van-button @click="onRegister" block round>确定</van-button>
+    <van-button :disabled="btnDisabled" @click="onRegister" block round>确定</van-button>
   </view>
 </template>
 
 <script setup lang="ts">
 import protocol from '@/components/protocol.vue'
-import { ref } from 'vue'
+import back from '@/components/back.vue'
+import { computed, ref } from 'vue'
+import { HideLoading, Loading, Toast } from '@/utils/toast'
+import { getCode } from '@/utils/pay'
+import { AuthAPIService } from '@/app/api/services/auth-api'
+import { onUnmounted } from 'vue'
+import { useAuthStore } from '@/store/auth'
 
 const phone = ref('')
 const code = ref('')
+const checked = ref(false)
+const waitTime = ref(0)
 
-function sendCode() {}
+const errorMessage = computed(() => {
+  const valid =
+    !phone.value ||
+    /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[0189])\d{8}$/.test(phone.value)
+  return valid ? '' : '手机号格式错误'
+})
+const codeText = computed(() => {
+  return waitTime.value ? `${waitTime.value}s后重新获取` : '获取验证码'
+})
+const codeDisabled = computed(() => !phone.value || errorMessage.value || waitTime.value)
+const btnDisabled = computed(
+  () => !phone.value || errorMessage.value || !code.value || !checked.value
+)
+const interval = setInterval(() => {
+  if (waitTime.value) waitTime.value--
+}, 1000)
+onUnmounted(() => interval && clearInterval(interval))
 
-function onRegister() {}
+async function sendCode() {
+  if (!phone.value) {
+    return Toast('请输入手机号')
+  }
+  if (errorMessage.value) {
+    return Toast('请输入正确的手机号')
+  }
+  if (waitTime.value) return
+  Loading('发送中...')
+  const code = await getCode()
+  if (code) {
+    const { e } = await AuthAPIService.authControllerSendValidateCode({ phone: phone.value, code })
+    HideLoading()
+    if (e) return
+    Toast('验证码已发送')
+    waitTime.value = 60
+  } else {
+    HideLoading()
+  }
+}
+function onCheckedChange(v: any) {
+  checked.value = v
+}
+function onRegister() {
+  useAuthStore().phoneLogin(phone.value, code.value)
+}
 </script>
 
 <style lang="scss">
-.phone {
+@import '@/styles/export.scss';
+
+@include b(phone) {
+  position: relative;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -53,7 +109,7 @@ function onRegister() {}
   justify-content: start;
   background-color: #eee;
 
-  .logo {
+  @include e(logo) {
     height: 616rpx;
     width: 100%;
     margin-left: auto;
@@ -61,7 +117,7 @@ function onRegister() {}
     margin-bottom: 76rpx;
   }
 
-  .field {
+  @include e(field) {
     width: 654rpx;
     height: 104rpx;
     background: #f7f7f7;
@@ -81,6 +137,13 @@ function onRegister() {}
     }
     .van-cell__value {
       overflow: visible;
+    }
+
+    .code {
+      color: #000;
+      &.is-disabed {
+        color: #999999;
+      }
     }
   }
 

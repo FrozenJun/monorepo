@@ -86,7 +86,9 @@ class HttpService {
       }
     }
     const http = new Request()
+    console.log('httpSendOption', http)
     const res: HttpResponse<Record<string, any>> = await http.request(httpSendOption)
+    console.log('res', res)
     return res
   }
 }

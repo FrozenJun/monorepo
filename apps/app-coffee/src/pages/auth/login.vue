@@ -1,29 +1,41 @@
 <template>
   <view class="login">
-    <image class="logo" src="/static/bg@2x.png" />
+    <back></back>
 
-    <van-button class="login-btn" @click="auth" block round>微信一键登录</van-button>
-    <van-button class="phone-btn" @click="navigateToPhone" block round>手机号安全登录</van-button>
+    <image class="login__logo" src="/static/bg@2x.png" />
 
-    <protocol></protocol>
+    <van-button
+      open-type="getPhoneNumber"
+      @getphonenumber="getPhoneNumber"
+      class="login__login-btn"
+      block
+      round
+      :disabled="!checked"
+      >微信一键登录</van-button
+    >
+    <van-button class="login__phone-btn" @click="navigateToPhone" block round
+      >手机号安全登录</van-button
+    >
+
+    <protocol @checked-change="onCheckedChange"></protocol>
+
+    <image class="login__bg" src="/static/login-bg.png" />
   </view>
 </template>
 
 <script setup lang="ts">
-import { AuthAPIService } from '@/app/api/services/auth-api'
 import protocol from '@/components/protocol.vue'
-import Toast from '@/wxcomponents/toast/toast'
+import back from '@/components/back.vue'
+import { useAuthStore } from '@/store/auth'
+import { ref } from 'vue'
 
-function auth() {
-  wx.login({
-    async success(code: string) {
-      const { e, data } = await AuthAPIService.authControllerMemberLogin({ code })
-      if (e) return
-    },
-    fail() {
-      Toast.fail('一键登录失败')
-    },
-  })
+const checked = ref(false)
+
+async function getPhoneNumber(e: any) {
+  await useAuthStore().login(e.detail.code)
+}
+function onCheckedChange(v: any) {
+  checked.value = v
 }
 
 function navigateToPhone() {
@@ -32,13 +44,18 @@ function navigateToPhone() {
 </script>
 
 <style lang="scss">
-.login {
+@import '@/styles/export.scss';
+@include b(login) {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f5f4 100%);
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
-  .logo {
+  @include e(logo) {
     height: 616rpx;
     width: 100%;
     margin-left: auto;
@@ -59,16 +76,23 @@ function navigateToPhone() {
     line-height: 44rpx;
     font-style: normal;
   }
-
-  .login-btn {
+  @include e(login-btn) {
     .van-button {
       background: #15ba11;
     }
   }
-  .phone-btn {
+  @include e(phone-btn) {
     .van-button {
       background: #006241;
     }
+  }
+
+  @include e(bg) {
+    position: absolute;
+    bottom: 30rpx;
+    right: 20rpx;
+    width: 256rpx;
+    height: 226rpx;
   }
 }
 </style>

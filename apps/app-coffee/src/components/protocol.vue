@@ -1,9 +1,5 @@
 <template>
-  <van-checkbox
-    :value="checked"
-    checked-color="#006241"
-    @change="checked = !checked"
-    class="protocol"
+  <van-checkbox :value="checked" checked-color="#006241" @change="onChange" class="protocol"
     >我已阅读、理解并接受以下规定
     <navigator class="navigator" url="/pages/protocols/coffee-protocol"
       >《耀美咖啡用户协议》</navigator
@@ -15,7 +11,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
+const emit = defineEmits(['checkedChange'])
+
 const checked = ref(false)
+
+function onChange() {
+  checked.value = !checked.value
+  emit('checkedChange', checked.value)
+}
 </script>
 
 <style lang="scss">

@@ -1,38 +1,41 @@
 import { defineStore } from 'pinia'
 import { getCache, setCache } from '@/utils/cache'
-import { UserDetailAPIService } from '@/app/api/services/user-detail-api'
-import type { UserDetailVo } from '@/app/api/models/user-detail-vo'
+import { AuthAPIService } from '@/app/api/services/auth-api'
+import type { MemberInfoVo } from '@/app/api/models/member-info-vo'
 
 interface UserState {
-  userInfo?: UserDetailVo
+  userInfo?: Partial<MemberInfoVo>
 }
-const TOKEN_KEY = 'app_adctl_user'
+const TOKEN_KEY = 'app_user'
+const userInfo = getCache<MemberInfoVo>(TOKEN_KEY) || {}
 export const useUserStore = defineStore({
   id: 'user',
   state: (): UserState => ({
-    userInfo: {},
+    userInfo,
   }),
   actions: {
-    setUserInfo(data: UserDetailVo | undefined) {
+    setUserInfo(data: MemberInfoVo | undefined) {
       setCache(TOKEN_KEY, data)
       this.userInfo = data
     },
     getUserInfo() {
-      return getCache<UserDetailVo>(TOKEN_KEY) || {}
+      return getCache<MemberInfoVo>(TOKEN_KEY) || this.userInfo
     },
 
     isRegister() {
       const user = this.getUserInfo() || {}
-      return !!user.createTime
+      return !!user.id
     },
     /**
      * @description 获取用户详情
      */
     async getUserDetail() {
-      const { data, e } = await UserDetailAPIService.getCurrentUserDetail()
-      if (!e) {
-        this.setUserInfo(data || {})
+      const { data, e } = await AuthAPIService.authControllerGetMemberInfo()
+      if (!e && data) {
+        data.balance = data.balance / 100
+        this.setUserInfo(data)
       }
+      return { e }
     },
   },
 })

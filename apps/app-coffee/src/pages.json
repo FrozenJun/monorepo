@@ -1,11 +1,119 @@
 {
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+
     {
       "path": "pages/home/home"
     },
     {
+      "path": "pages/order/order-settle",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "订单结算"
+      }
+    },
+    {
+      "path": "pages/order/order-paid",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "支付成功"
+      }
+    },
+    {
+      "path": "pages/balance/balance-result",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "充值成功"
+      }
+    },
+    {
+      "path": "pages/pickup/pickup-buy",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "购买成功"
+      }
+    },
+    {
+      "path": "pages/balance/balance-recharge",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "特惠充值"
+      }
+    },
+    {
+      "path": "pages/balance/balance"
+    },
+    {
+      "path": "pages/my/consume",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "消费明细"
+      }
+    },
+    {
+      "path": "pages/my/nickname",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "昵称"
+      }
+    },
+    {
+      "path": "pages/my/phone",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "手机号"
+      }
+    },
+    {
+      "path": "pages/order/order-detail",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "订单详情"
+      }
+    },
+    {
+      "path": "pages/my/personal",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "个人资料"
+      }
+    },
+    {
+      "path": "pages/my/connect",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "联系方式"
+      }
+    },
+    {
+      "path": "pages/my/my"
+    },
+    {
       "path": "pages/auth/login"
+    },
+    {
+      "path": "pages/home/nearby",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "附近的咖啡机"
+      }
+    },
+    {
+      "path": "pages/order/order",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "我的订单"
+      }
+    },
+    {
+      "path": "pages/pickup/pickup-detail",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "提货码使用明细"
+      }
+    },
+    {
+      "path": "pages/pickup/pickup-code"
     },
     {
       "path": "pages/auth/phone"
@@ -42,7 +150,47 @@
       "van-field": "/wxcomponents/dist/field/index",
       "van-tabbar": "/wxcomponents/dist/tabbar/index",
       "van-tabbar-item": "/wxcomponents/dist/tabbar-item/index",
-      "van-toast": "/wxcomponents/dist/toast/index"
+      "van-toast": "/wxcomponents/dist/toast/index",
+      "van-icon": "/wxcomponents/dist/icon/index",
+      "van-tab": "/wxcomponents/dist/tab/index",
+      "van-tabs": "/wxcomponents/dist/tabs/index",
+      "van-cell": "/wxcomponents/dist/cell/index",
+      "van-cell-group": "/wxcomponents/dist/cell-group/index",
+      "van-empty": "/wxcomponents/dist/empty/index",
+      "van-radio": "/wxcomponents/dist/radio/index",
+      "van-radio-group": "/wxcomponents/dist/radio-group/index",
+      "van-dialog": "/wxcomponents/dist/dialog/index"
     }
+  },
+  "tabBar": {
+    "color": "#888888",
+    "selectedColor": "#004026",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "/static/b-home.png",
+        "selectedIconPath": "/static/b-home-a.png"
+      },
+      {
+        "pagePath": "pages/pickup/pickup-code",
+        "text": "提货码",
+        "iconPath": "/static/b-pick.png",
+        "selectedIconPath": "/static/b-pick-a.png"
+      },
+      {
+        "pagePath": "pages/home/nearby",
+        "text": "附近",
+        "iconPath": "/static/b-near.png",
+        "selectedIconPath": "/static/b-near-a.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "/static/b-my.png",
+        "selectedIconPath": "/static/b-my-a.png"
+      }
+    ]
   }
 }

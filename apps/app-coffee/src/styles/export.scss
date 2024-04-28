@@ -4,3 +4,10 @@
 @import './layout/layout.scss';
 // @import './theme/index.scss';
 @import './mixins/breakpoints.scss'; // 需要放在theme/index之后
+
+
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

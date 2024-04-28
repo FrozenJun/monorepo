@@ -1,8 +1,8 @@
 import { useAuthStore } from '@/store/auth'
-import Toast from '@/wxcomponents/toast/toast'
-import { HttpAppConfig } from 'common-core/http'
+import { HttpAppConfig } from '@packages/http'
 import { BASE_URL } from '../constant/global'
-import { useLogStore } from '@/store/log'
+import { Toast } from '@/utils/toast'
+// import { useLogStore } from '@/store/log'
 
 HttpAppConfig({
   timeout: 60000,
@@ -18,13 +18,13 @@ HttpAppConfig({
     return options
   },
   onResponse(res, option) {
-    const logStore = useLogStore()
-    logStore.setLog(option.url + res.data.code + JSON.stringify(res.data.msg))
+    // const logStore = useLogStore()
+    // logStore.setLog(option.url + res.data.code + JSON.stringify(res.data.msg))
     try {
       const data = res.data
       if (data.code === 200) {
         if (option.extra && option.extra.successText) {
-          Toast.success(option.extra.successText)
+          Toast(option.extra.successText)
         }
         return {
           e: false,
@@ -33,10 +33,12 @@ HttpAppConfig({
           httpStatus: 200,
         }
       } else if (data.code === 401) {
+        useAuthStore().loginOut()
+        // Toast('用户信息已过期，请重新登录')
         return {
           e: true,
         }
-      } else if (data.code > 200 && data.code < 500) {
+      } else if (data.code) {
         if (!option.extra || !option.extra.noMessage) {
           Toast((option.extra && option.extra.errorText) || data.msg)
         }

@@ -1,0 +1,36 @@
+view {
+  box-sizing: border-box;
+}
+
+.cells {
+  van-cell {
+    &:first-child {
+      .van-cell {
+        border-top-left-radius: 24rpx;
+        border-top-right-radius: 24rpx;
+      }
+    }
+    &:last-child {
+      .van-cell {
+        border-bottom-left-radius: 24rpx;
+        border-bottom-right-radius: 24rpx;
+      }
+    }
+    .van-cell {
+      padding: 32rpx 24rpx !important;
+      &::after {
+        z-index: 100;
+      }
+
+      .van-cell__value {
+        font-family: PingFangSC, PingFang SC;
+        font-weight: 400;
+        font-size: 28rpx;
+        color: #000000;
+        line-height: 40rpx;
+        text-align: right;
+        font-style: normal;
+      }
+    }
+  }
+}

@@ -1,18 +1,18 @@
 import { defineStore } from 'pinia'
 import { clearCache, getCache, removeCache, setCache } from '@/utils/cache'
-import { UserAPIService } from '@/app/api/services/user-api'
 import { useUserStore } from './user'
-import { useOrgStore } from './org'
-import { HideLoading, Loading, Toast } from '@/utils/propmt'
+import { AuthAPIService } from '@/app/api/services/auth-api'
+import { HideLoading, Loading, Toast } from '@/utils/toast'
 
 interface AuthState {
   token?: string
 }
-const TOKEN_KEY = 'app_adctl_token'
+const TOKEN_KEY = 'app_token'
+const token = getCache<string>(TOKEN_KEY)
 export const useAuthStore = defineStore({
   id: 'auth',
   state: (): AuthState => ({
-    token: undefined,
+    token,
   }),
   actions: {
     setToken(token: string | undefined) {
@@ -28,24 +28,51 @@ export const useAuthStore = defineStore({
     /**
      * @description 登录
      */
-    async login() {
+    async login(code: string) {
       try {
-        const { code } = await uni.login({
-          provider: 'weixin',
-        })
-        Loading('正在登陆中')
-        const { data, e, error } = await UserAPIService.miniAppLogin({ code })
+        Loading('正在登录中')
+        const { data, e, error } = await AuthAPIService.authControllerMemberLogin({ code })
         if (!e) {
-          this.setToken(data?.accessToken)
+          this.setToken(data)
           const userStore = useUserStore()
-          const orgStore = useOrgStore()
-          userStore.getUserDetail()
-          orgStore.getOrgDetail()
+          const { e } = await userStore.getUserDetail()
           HideLoading()
+          if (!e) {
+            wx.navigateBack()
+            Toast('登录成功')
+          }
         } else {
           HideLoading()
-          if (error?.errno) {
-            Toast('登录失败' + error.errno)
+          if (error?.message) {
+            Toast('登录失败' + error.message)
+            clearCache()
+          }
+        }
+      } catch (err: any) {
+        HideLoading()
+        Promise.reject(err)
+      }
+    },
+    async phoneLogin(phone: string, code: string) {
+      try {
+        Loading('正在登录中')
+        const { data, e, error } = await AuthAPIService.authControllerValidateCodeLogin({
+          phone,
+          code,
+        })
+        if (!e) {
+          this.setToken(data)
+          const userStore = useUserStore()
+          const { e } = await userStore.getUserDetail()
+          HideLoading()
+          if (!e) {
+            wx.navigateBack({ delta: 2 })
+            Toast('登录成功')
+          }
+        } else {
+          HideLoading()
+          if (error?.message) {
+            Toast('登录失败' + error.message)
             clearCache()
           }
         }
