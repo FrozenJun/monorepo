@@ -1,21 +1,26 @@
 <template>
   <div class="home">
     <div class="home__top">
-      <image class="home__img" src="/static/banner@2x.png" />
+      <image class="home__img" src="/static/banner.png" />
 
       <div class="home__info" :class="[isLogin && 'is-logined']">
-        <image v-if="!isLogin" class="home__info-bg" src="/static/home-bg@2x.png" />
+        <image v-if="!isLogin" class="home__info-bg" src="/static/home-bg.png" />
 
         <div v-if="!isLogin" class="home__info-default">
           <div class="left">
-            <image src="/static/home-logo@2x.png" />
+            <image src="/static/home-logo.png" />
             <div class="text">Hi，把四季的幸运送给你</div>
           </div>
           <van-button block round @tap="goLogin">注册/登录</van-button>
         </div>
 
         <div v-else class="home__info-logined">
-          <image class="avatar" :src="userInfo?.avatarUrl" :alt="userInfo?.nickname" />
+          <image
+            class="avatar"
+            mode="aspectFill"
+            :src="userInfo?.avatarUrl"
+            :alt="userInfo?.nickname"
+          />
           <div class="info">
             <div class="number">{{ userInfo?.pickupCodeCount || 0 }}</div>
             <div class="name">提货码</div>
@@ -28,7 +33,7 @@
       </div>
     </div>
 
-    <image class="home__pay" src="/static/pay@2x.png" @tap="goPay" />
+    <image class="home__pay" src="/static/pay.png" @tap="goPay" />
 
     <div class="home__code">
       <div class="home__code-head">

@@ -3,7 +3,11 @@
     <button class="button" open-type="chooseAvatar" @chooseavatar="onChooseavatar"></button>
     <van-cell-group class="cells">
       <van-cell title="头像" is-link>
-        <image class="avatar" :src="data?.avatarUrl || '/static/my-default.png'" />
+        <image
+          class="avatar"
+          mode="aspectFill"
+          :src="data?.avatarUrl || '/static/my-default.png'"
+        />
       </van-cell>
       <van-cell @tap="toNickname" title="昵称" :value="data?.nickname || ''" is-link />
       <van-cell @tap="toPhone" title="手机号" :value="phone" is-link />

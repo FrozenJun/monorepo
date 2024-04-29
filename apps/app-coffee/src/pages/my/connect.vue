@@ -1,19 +1,25 @@
 <template>
   <div class="connect">
-    <div class="connect__item">
-      <van-icon name="phone-o" />
+    <div class="connect__item" @tap="callPhone">
+      <image class="avatar" mode="aspectFill" src="/static/call.png" />
       <div class="name">致电客服</div>
       <image class="arrow" src="/static/arr-right@2x.png" />
     </div>
 
     <div class="connect__code">
-      <image src="/static/my-order.png" />
-      <div class="desc">点击二维码复制添加客服微信</div>
+      <image show-menu-by-longpress src="/static/wechat-code.png" />
+      <div class="desc">长按二维码复制添加客服微信</div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+function callPhone() {
+  wx.makePhoneCall({
+    phoneNumber: '13366151709',
+  })
+}
+</script>
 
 <style lang="scss">
 @import '@/styles/export.scss';
@@ -34,10 +40,9 @@
     margin-bottom: 24rpx;
     background: #ffffff;
     border-radius: 16rpx;
-    .van-icon {
+    image {
       width: 48rpx;
       height: 48rpx;
-      font-size: 48rpx;
       margin-right: 16rpx;
     }
     .name {

@@ -1,25 +1,41 @@
 <template>
   <div class="order-info">
-    <div class="device">No.9007 橘子水晶酒店咖啡机<van-icon name="arrow" /></div>
+    <div class="device">{{ order.deviceInfo?.name || '未知设备' }}<van-icon name="arrow" /></div>
     <div class="divide"></div>
     <div class="goods">
-      <div class="good" v-for="i in 5" :key="i">
-        <order-good></order-good>
+      <div class="good" v-for="(i, index) in goods" :key="index">
+        <order-good :good="i"></order-good>
       </div>
     </div>
 
-    <div class="expand">
-      点击收起
+    <div
+      v-if="order.goods?.length > 2"
+      @tap="isExpand = !isExpand"
+      class="expand"
+      :class="[isExpand && 'is-expanded']"
+    >
+      {{ isExpand ? '点击收起' : '展开全部' }}
       <image src="/static/arr-right@2x.png" />
     </div>
+    <div v-if="order.payway === OrderPayway.提货码" class="count-line">
+      <div class="left">使用提货码</div>
+      <div class="right">
+        <div class="price">
+          -￥
+          <div class="strong">{{ order.amount / 100 }}</div>
+        </div>
+      </div>
+    </div>
     <div class="divide-dash"></div>
-    <div class="bottom">
-      <div class="left">共三件商品</div>
+    <div class="count-line">
+      <div class="left">共{{ (order as any).goodsCount || 0 }}件商品</div>
       <div class="right">
         <div>总计：</div>
         <div class="price">
           ￥
-          <div class="strong">39</div>
+          <div class="strong">
+            {{ order.payway === OrderPayway.提货码 ? 0 : (order.amount || 0) / 100 }}
+          </div>
         </div>
       </div>
     </div>
@@ -27,7 +43,23 @@
 </template>
 
 <script setup lang="ts">
+import { ref, type PropType } from 'vue'
 import OrderGood from './order-good.vue'
+import type { OrderDetailVo } from '@/app/api/models/order-detail-vo'
+import { computed } from 'vue'
+import { OrderPayway, OrderStatus } from '@/app/api/services/enum'
+
+const props = defineProps({
+  order: {
+    type: Object as PropType<Record<string, any> & OrderDetailVo>,
+    default: () => ({}),
+  },
+})
+const goods = computed(() =>
+  (props.order?.goods || []).filter((i, index) => isExpand.value || index < 2)
+)
+
+const isExpand = ref(false)
 </script>
 
 <style lang="scss">
@@ -83,8 +115,12 @@ import OrderGood from './order-good.vue'
     line-height: 34rpx;
     text-align: right;
     font-style: normal;
-    margin-bottom: 32rpx;
 
+    &.is-expanded {
+      image {
+        transform: rotate(270deg);
+      }
+    }
     image {
       width: 24rpx;
       height: 24rpx;
@@ -96,9 +132,10 @@ import OrderGood from './order-good.vue'
     width: 654rpx;
     height: 2rpx;
     border-bottom: 2px dashed #cccccc;
-    margin-bottom: 22rpx;
+    margin-top: 32rpx;
   }
-  .bottom {
+  .count-line {
+    margin-top: 30rpx;
     width: 100%;
     display: flex;
     justify-content: space-between;

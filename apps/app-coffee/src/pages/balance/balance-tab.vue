@@ -1,9 +1,9 @@
 <template>
-  <div class="pickup-detail-tab">
+  <div class="balance-tab">
     <scroll-view
       v-if="list.length"
       scroll-y="true"
-      class="pickup-detail-tab__content"
+      class="balance-tab__content"
       @scrolltolower="loadMore"
     >
       <detail-item
@@ -15,36 +15,34 @@
     </scroll-view>
 
     <van-empty v-else description="暂无明细" image="/static/pickup-empty.png">
-      <div class="empty">使用明细将会展示在这里</div>
+      <div class="empty">余额明细将会展示在这里</div>
     </van-empty>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import DetailItem from './pickup-item.vue'
+import DetailItem from './balance-item.vue'
 import { HideLoading, Loading } from '@/utils/toast'
-import { PickupCodeUsageDetailsAPIService } from '@/app/api/services/pickup-code-usage-details-api'
-import type { PickupCodeUsageDetailType } from '@/app/api/services/enum'
-import type { PickupCodeUsageDetailsVo } from '@/app/api/models/pickup-code-usage-details-vo'
 import { onShow } from '@dcloudio/uni-app'
 import type { PropType } from 'vue'
+import { BalanceDetailsAPIService } from '@/app/api/services/balance-details-api'
+import type { BalanceDetailsVo } from '@/app/api/models/balance-details-vo'
+import type { BalanceDetailType } from '@/app/api/services/enum'
 
 const props = defineProps({
   types: {
-    type: Array as PropType<PickupCodeUsageDetailType[]>,
+    type: Array as PropType<BalanceDetailType[]>,
     default: () => [],
   },
 })
 
-const list = ref<PickupCodeUsageDetailsVo[]>([])
+const list = ref<BalanceDetailsVo[]>([])
 const pageNo = ref(1)
 const pageSize = 10
 const isLoading = ref(false)
 
-onShow(() => {
-  getDetails()
-})
+getDetails()
 function loadMore() {
   if (!isLoading.value) {
     isLoading.value = true
@@ -54,12 +52,11 @@ function loadMore() {
 }
 async function getDetails() {
   Loading('加载中')
-  const { e, data } =
-    await PickupCodeUsageDetailsAPIService.pickupCodeUsageDetailsControllerMemberPage({
-      page: pageNo.value,
-      size: pageSize,
-      types: props.types,
-    })
+  const { e, data } = await BalanceDetailsAPIService.balanceDetailsControllerMemberPage({
+    page: pageNo.value,
+    size: pageSize,
+    types: props.types,
+  })
   HideLoading()
   isLoading.value = false
   if (e) return
@@ -70,13 +67,13 @@ async function getDetails() {
 <style lang="scss">
 @import '@/styles/export.scss';
 
-@include b(pickup-detail-tab) {
+@include b(balance-tab) {
   @include e(content) {
     width: 100%;
     background: #f7f7f7;
     padding: 24rpx;
     box-sizing: border-box;
-    height: calc(100vh - 44px);
+    height: calc(100vh - 44px - 450rpx);
   }
 }
 </style>

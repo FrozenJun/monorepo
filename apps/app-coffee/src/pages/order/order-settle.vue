@@ -1,24 +1,32 @@
 <template>
   <div class="order-settle">
     <div class="order-settle__container">
-      <order-info></order-info>
+      <order-info :order="(data as any)"></order-info>
 
       <div class="order-settle__choose">
-        <van-radio-group :value="radio" @change="onChange">
+        <van-radio-group :value="radio">
           <van-cell-group>
-            <van-cell clickable data-name="1" @click="onClick">
-              <view class="title" slot="title">
-                <image src="/static/arr-right@2x.png" />
-                <view class="text">余额（可用￥22.1）</view>
+            <van-cell clickable :data-name="OrderPayway.余额支付" @click="changePayway">
+              <view class="title" slot="title" :class="[balanceDisabled && 'disabled']">
+                <image src="/static/balance.png" />
+                <div class="right">
+                  <view class="text">余额（可用￥{{ userInfo?.balance || 0 }}）</view>
+                  <div class="tip" @tap="toBuy">特惠充值活动进行中，立即充值</div>
+                </div>
               </view>
-              <van-radio slot="right-icon" name="1" checked-color="#006241" />
+              <van-radio
+                :disabled="balanceDisabled"
+                slot="right-icon"
+                :name="OrderPayway.余额支付"
+                checked-color="#006241"
+              />
             </van-cell>
-            <van-cell clickable data-name="2" @click="onClick">
+            <van-cell clickable :data-name="OrderPayway.微信支付" @click="changePayway">
               <view class="title" slot="title">
-                <image src="/static/arr-right@2x.png" />
+                <image src="/static/wc-pay.png" />
                 <view class="text">微信支付</view>
               </view>
-              <van-radio slot="right-icon" name="2" checked-color="#006241" />
+              <van-radio slot="right-icon" :name="OrderPayway.微信支付" checked-color="#006241" />
             </van-cell>
           </van-cell-group>
         </van-radio-group>
@@ -29,23 +37,102 @@
       <div class="left">
         <div class="desc">合计：</div>
         <div class="unit">￥</div>
-        <div class="number">39.00</div>
+        <div class="number">{{ data?.amountText || '0.00' }}</div>
       </div>
-      <van-button>立即支付</van-button>
+      <van-button @tap="toPay">立即支付</van-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import OrderInfo from './order-info.vue'
+import { useAuthStore } from '@/store/auth'
+import { OrderAPIService } from '@/app/api/services/order-api'
+import { Loading, HideLoading, Toast } from '@/utils/toast'
+import type { OrderDetailVo } from '@/app/api/models/order-detail-vo'
+import { onLoad } from '@dcloudio/uni-app'
+import { OrderPayway } from '@/app/api/services/enum'
+import { useUserStore } from '@/store/user'
+import { payOrder } from '@/utils/pay'
 
-const radio = ref('1')
-function onChange(e) {
-  console.log(e)
+/**
+ * 判断用户是否未登录与用户信息
+ */
+const authStore = useAuthStore()
+const userStore = useUserStore()
+const isLogin = computed(() => authStore.token)
+const userInfo = computed(() => userStore.userInfo)
+validateLogin()
+function validateLogin() {
+  if (!isLogin.value) {
+    wx.navigateTo({ url: '/pages/auth/login' })
+  } else {
+    return true
+  }
 }
-function onClick(e: any) {
-  radio.value = e.currentTarget.dataset?.name || ''
+
+const order = ref<OrderDetailVo | undefined>()
+const data = computed(() => {
+  return {
+    ...order.value,
+    amountText: ((order.value?.amount || 0) / 100).toFixed(2),
+  }
+})
+onLoad((params: any) => {
+  getDetail(params.id)
+})
+async function getDetail(id: string) {
+  Loading('加载中...')
+  const { e, data } = await OrderAPIService.orderControllerGetOrderDetail({
+    id,
+  })
+  HideLoading()
+  if (e || !data) return
+  order.value = data
+
+  if (balanceDisabled.value) radio.value = OrderPayway.微信支付
+}
+
+/**
+ * 支付切换
+ */
+const balanceDisabled = computed(() => {
+  return data.value?.amount && data.value?.amount / 100 > (userInfo.value?.balance || 0)
+})
+const radio = ref(OrderPayway.余额支付)
+function changePayway(e: any) {
+  if (balanceDisabled.value && e.currentTarget.dataset?.name === OrderPayway.余额支付) return
+  radio.value = e.currentTarget.dataset?.name
+}
+
+function toBuy() {
+  validateLogin() && wx.navigateTo({ url: '/pages/balance/balance-recharge' })
+}
+
+/**
+ * 支付
+ */
+async function toPay() {
+  if (!data.value.id) return Toast('订单ID不存在')
+  if (radio.value === OrderPayway.余额支付) {
+    Loading('支付中...')
+    const { e } = await OrderAPIService.orderControllerBalancePay({
+      orderId: data.value.id,
+    })
+    HideLoading()
+    if (e) return
+    paySuccess()
+  } else {
+    payOrder(data.value.id, paySuccess)
+  }
+}
+async function paySuccess() {
+  await useUserStore().getUserDetail()
+  Toast('支付成功')
+  wx.navigateTo({
+    url: `/pages/order/order-paid?id=${data.value.id}`,
+  })
 }
 </script>
 
@@ -90,7 +177,12 @@ function onClick(e: any) {
 
       .title {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        &.disabled {
+          .text {
+            color: #999;
+          }
+        }
         image {
           width: 40rpx;
           height: 40rpx;
@@ -104,6 +196,24 @@ function onClick(e: any) {
           line-height: 40rpx;
           text-align: left;
           font-style: normal;
+        }
+        .right {
+          display: flex;
+          flex-direction: column;
+          .tip {
+            margin-top: 8rpx;
+            height: 30rpx;
+            border-radius: 6rpx;
+            padding: 0 8rpx;
+            border: 1rpx solid #ff2d19;
+            font-family: PingFangSC, PingFang SC;
+            font-weight: 400;
+            font-size: 20rpx;
+            color: #ff2d19;
+            line-height: 28rpx;
+            text-align: left;
+            font-style: normal;
+          }
         }
       }
     }

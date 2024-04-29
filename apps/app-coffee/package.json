@@ -59,6 +59,7 @@
     "@packages/http": "workspace:*",
     "@vant/weapp": "^1.11.5",
     "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.11",
     "luch-request": "^3.1.1",
     "pinia": "^2.0.28",
     "vue": "^3.3.11",

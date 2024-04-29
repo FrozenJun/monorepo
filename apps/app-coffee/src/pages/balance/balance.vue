@@ -9,35 +9,50 @@
     <div class="balance__info">
       <div class="left">
         <div class="label">可用余额(元)</div>
-        <div class="number">92.9</div>
+        <div class="number">{{ userInfo?.balance || 0 }}</div>
       </div>
-      <van-button block round>特惠充值</van-button>
+      <van-button block round @tap="toBuy">特惠充值</van-button>
     </div>
 
     <div class="balance__tabs">
       <van-tabs :active="active">
         <van-tab title="全部">
-          <div class="balance__content">
-            <detail-item v-for="i in 8" :key="i"></detail-item>
-          </div>
+          <BalanceTab
+            :types="[
+              BalanceDetailType.余额付款,
+              BalanceDetailType.余额充值,
+              BalanceDetailType.余额退款,
+            ]"
+          ></BalanceTab>
         </van-tab>
         <van-tab title="收入">
-          <van-empty description="暂无明细" image="/static/pickup-empty.png">
-            <div class="empty">余额明细将会展示在这里</div>
-          </van-empty>
+          <BalanceTab
+            :types="[BalanceDetailType.余额充值, BalanceDetailType.余额退款]"
+          ></BalanceTab>
         </van-tab>
-        <van-tab title="支出">内容1 3</van-tab>
+        <van-tab title="支出">
+          <BalanceTab :types="[BalanceDetailType.余额付款]"></BalanceTab
+        ></van-tab>
       </van-tabs>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import back from '@/components/back.vue'
-import DetailItem from '@/components/detail-item.vue'
+import BalanceTab from './balance-tab.vue'
+import { BalanceDetailType } from '@/app/api/services/enum'
+import { useUserStore } from '@/store/user'
+
+const userStore = useUserStore()
+const userInfo = computed(() => userStore.userInfo)
 
 const active = ref(0)
+
+function toBuy() {
+  wx.navigateTo({ url: '/pages/balance/balance-recharge' })
+}
 </script>
 
 <style lang="scss">

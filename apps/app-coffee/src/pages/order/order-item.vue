@@ -1,43 +1,84 @@
 <template>
-  <div class="order-item">
+  <div class="order-item" @tap="toDetail">
     <div class="order-item__top">
-      <div class="device">No.995 橘子水晶咖啡机 <van-icon name="arrow" /></div>
+      <div class="device">
+        {{ result.deviceInfo?.name || '未知设备' }} <van-icon name="arrow" />
+      </div>
 
-      <div class="status">已完成</div>
+      <div class="status" :class="[result.isCancle && 'cancled']">
+        {{ result.isCancle ? '已退款' : '已完成' }}
+      </div>
     </div>
 
-    <div class="time">2023-04-12 11:11:41</div>
+    <div class="time">{{ result.time }}</div>
 
     <div class="order-item__content">
       <div class="goods">
-        <div class="good" :class="['is-column']" v-for="i in 5" :key="i">
-          <image src="/static/coffee.png" />
-          <div class="name">冰美式</div>
+        <div class="good" :class="['is-column']" v-for="(i, index) in result.goods" :key="index">
+          <image mode="aspectFill" src="/static/coffee.png" />
+          <div class="name">{{ `${i.name}${i.count > 1 ? `x${i.count}` : ''}` }}</div>
         </div>
       </div>
 
       <div class="count">
         <div class="count-price">
           ￥
-          <div class="strong">13</div>
+          <div class="strong">{{ result.amount / 100 }}</div>
         </div>
-        <div class="number">共 10 件</div>
+        <div class="number">共 {{ result.goodsCount }} 件</div>
       </div>
     </div>
 
     <div class="order-item__divide"></div>
 
     <div class="order-item__bottom">
-      <div class="bottom-left">成功退款15</div>
-      <div class="bottom-right">微信支付</div>
+      <div class="bottom-left">
+        <div v-if="result.isPartOk">成功退款￥{{ result.refundedAmount }}</div>
+      </div>
+      <div class="bottom-right">{{ result.paywayText }}</div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, type PropType } from 'vue'
+import dayjs from 'dayjs'
+import { OrderPayway, OrderStatus } from '@/app/api/services/enum'
 
-const count = ref(1)
+const props = defineProps({
+  data: {
+    type: Object as PropType<Record<string, any>>,
+    default: () => ({}),
+  },
+})
+
+const result = computed<Record<string, any>>(() => {
+  let paywayText
+  switch (props.data?.payway) {
+    case OrderPayway.余额支付:
+      paywayText = '余额支付'
+      break
+    case OrderPayway.微信支付:
+      paywayText = '微信支付'
+      break
+    case OrderPayway.提货码:
+      paywayText = '提货码支付 | 提货码：' + (props.data?.pickupCode || '未知提货码')
+  }
+  return {
+    ...props.data,
+    isOk: props.data.status === OrderStatus.已完成,
+    isPartOk: props.data.status === OrderStatus.部分退款,
+    isCancle: props.data.status === OrderStatus.已退款,
+    paywayText,
+    time: dayjs(props.data.payAt).format('YYYY-MM-DD HH:mm:ss'),
+  }
+})
+
+function toDetail() {
+  wx.navigateTo({
+    url: '/pages/order/order-detail?id=' + result.value.id,
+  })
+}
 </script>
 
 <style lang="scss">
@@ -81,6 +122,10 @@ const count = ref(1)
       line-height: 40rpx;
       text-align: right;
       font-style: normal;
+
+      &.cancled {
+        color: #fe5500;
+      }
     }
   }
   .time {

@@ -2,24 +2,22 @@
   <div class="order">
     <van-tabs :active="active" sticky>
       <van-tab title="全部">
-        <div class="order__content">
-          <order-item v-for="i in 6" :key="i"></order-item>
-        </div>
+        <OrderTab
+          :types="[OrderStatus.已完成, OrderStatus.已退款, OrderStatus.部分退款]"
+        ></OrderTab>
       </van-tab>
       <van-tab title="已完成"
-        ><van-empty description="暂无历史订单" image="/static/order-empty.png">
-          <div class="empty">历史订单将会展示在这里\n请先去下单哦～</div>
-          <van-button>去喝一杯</van-button>
-        </van-empty></van-tab
-      >
-      <van-tab title="已退款">内容1 3</van-tab>
+        ><OrderTab :types="[OrderStatus.已完成, OrderStatus.部分退款]"></OrderTab
+      ></van-tab>
+      <van-tab title="已退款"><OrderTab :types="[OrderStatus.已退款]"></OrderTab></van-tab>
     </van-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import OrderItem from './order-item.vue'
+import OrderTab from './order-tab.vue'
+import { OrderStatus } from '@/app/api/services/enum'
 
 const active = ref(0)
 </script>
@@ -32,11 +30,6 @@ const active = ref(0)
   height: 100vh;
   background: #f7f7f7;
 
-  @include e(content) {
-    width: 100%;
-    padding: 24rpx;
-    background: #f7f7f7;
-  }
   .van-empty {
     padding-top: 180rpx;
     background: #f7f7f7;

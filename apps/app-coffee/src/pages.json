@@ -6,10 +6,38 @@
       "path": "pages/home/home"
     },
     {
-      "path": "pages/order/order-settle",
+      "path": "pages/my/nickname",
       "style": {
         "navigationStyle": "default",
-        "navigationBarTitleText": "订单结算"
+        "navigationBarTitleText": "昵称"
+      }
+    },
+    {
+      "path": "pages/my/phone",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "手机号"
+      }
+    },
+    {
+      "path": "pages/my/personal",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "个人资料"
+      }
+    },
+    {
+      "path": "pages/my/connect",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "联系方式"
+      }
+    },
+    {
+      "path": "pages/my/consume",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "消费明细"
       }
     },
     {
@@ -17,6 +45,13 @@
       "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "支付成功"
+      }
+    },
+    {
+      "path": "pages/order/order-settle",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "订单结算"
       }
     },
     {
@@ -43,46 +78,12 @@
     {
       "path": "pages/balance/balance"
     },
-    {
-      "path": "pages/my/consume",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "消费明细"
-      }
-    },
-    {
-      "path": "pages/my/nickname",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "昵称"
-      }
-    },
-    {
-      "path": "pages/my/phone",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "手机号"
-      }
-    },
+
     {
       "path": "pages/order/order-detail",
       "style": {
         "navigationStyle": "default",
         "navigationBarTitleText": "订单详情"
-      }
-    },
-    {
-      "path": "pages/my/personal",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "个人资料"
-      }
-    },
-    {
-      "path": "pages/my/connect",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "联系方式"
       }
     },
     {
@@ -117,29 +118,43 @@
     },
     {
       "path": "pages/auth/phone"
-    },
-    {
-      "path": "pages/protocols/coffee-protocol",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "耀美咖啡用户协议"
-      }
-    },
-    {
-      "path": "pages/protocols/privacy-protocol",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "隐私协议"
-      }
-    },
-    {
-      "path": "pages/protocols/pay-protocol",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "支付协议"
-      }
     }
   ],
+  "subPackages": [
+    {
+      "root": "subpages",
+      "name": "subpages",
+      "pages": [
+        {
+          "path": "protocols/coffee-protocol",
+          "style": {
+            "navigationStyle": "default",
+            "navigationBarTitleText": "耀美咖啡用户协议"
+          }
+        },
+        {
+          "path": "protocols/privacy-protocol",
+          "style": {
+            "navigationStyle": "default",
+            "navigationBarTitleText": "隐私协议"
+          }
+        },
+        {
+          "path": "protocols/pay-protocol",
+          "style": {
+            "navigationStyle": "default",
+            "navigationBarTitleText": "支付协议"
+          }
+        }
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/auth/login": {
+      "network": "all",
+      "packages": ["subpages"]
+    }
+  },
   "globalStyle": {
     "navigationStyle": "custom",
     "navigationBarBackgroundColor": "#ffffff",
@@ -148,8 +163,6 @@
       "van-button": "/wxcomponents/dist/button/index",
       "van-checkbox": "/wxcomponents/dist/checkbox/index",
       "van-field": "/wxcomponents/dist/field/index",
-      "van-tabbar": "/wxcomponents/dist/tabbar/index",
-      "van-tabbar-item": "/wxcomponents/dist/tabbar-item/index",
       "van-icon": "/wxcomponents/dist/icon/index",
       "van-tab": "/wxcomponents/dist/tab/index",
       "van-tabs": "/wxcomponents/dist/tabs/index",
@@ -157,7 +170,7 @@
       "van-cell-group": "/wxcomponents/dist/cell-group/index",
       "van-empty": "/wxcomponents/dist/empty/index",
       "van-radio": "/wxcomponents/dist/radio/index",
-      "van-radio-group": "/wxcomponents/dist/radio-group/index",
+      "van-radio-group": "/wxcomponents/dist/radio-group/index"
     }
   },
   "tabBar": {

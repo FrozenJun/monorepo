@@ -1,19 +1,29 @@
 <template>
   <div class="order-good">
     <div class="left">
-      <image src="/static/coffee.png" />
+      <image mode="aspectFill" src="/static/coffee.png" />
 
       <div class="info">
-        <div class="name">冰美式</div>
-        <div class="count">*1</div>
+        <div class="name">{{ good.name }}</div>
+        <div class="count">x {{ good.count }}</div>
       </div>
     </div>
 
-    <div class="right">￥13</div>
+    <div class="right">￥{{ good.amount / 100 }}</div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import type { OrderGoods } from '@/app/api/models/order-goods'
+import type { PropType } from 'vue'
+
+defineProps({
+  good: {
+    type: Object as PropType<OrderGoods>,
+    default: () => ({}),
+  },
+})
+</script>
 
 <style lang="scss">
 @import '@/styles/export.scss';

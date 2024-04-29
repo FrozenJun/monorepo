@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import { BalanceComboAPIService } from '@/app/api/services/balance-combo-api'
+import { useUserStore } from '@/store/user'
 import { payBalance } from '@/utils/pay'
 import { HideLoading, Loading, Toast } from '@/utils/toast'
 import { onShow } from '@dcloudio/uni-app'
@@ -47,7 +48,8 @@ async function getList() {
 function buy() {
   const { id, amount, giftAmount } = list.value[active.value] || {}
   if (!id) return
-  payBalance(id, () => {
+  payBalance(id, async () => {
+    await useUserStore().getUserDetail()
     Toast('充值成功')
     wx.navigateTo({
       url: `/pages/balance/balance-result?amount=${amount}&giftAmount=${giftAmount}`,

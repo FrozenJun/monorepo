@@ -2,7 +2,7 @@
   <view class="phone">
     <back></back>
 
-    <image class="phone__logo" src="/static/bg@2x.png" />
+    <image class="phone__logo" src="/static/phone-bg.png" />
 
     <van-field
       class="phone__field"
@@ -33,6 +33,8 @@
     <protocol @checked-change="onCheckedChange"></protocol>
 
     <van-button :disabled="btnDisabled" @click="onRegister" block round>确定</van-button>
+
+    <image class="phone__bg" src="/static/login-bg.png" />
   </view>
 </template>
 
@@ -111,11 +113,11 @@ function onRegister() {
   background-color: #eee;
 
   @include e(logo) {
-    height: 616rpx;
+    height: 492rpx;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 76rpx;
+    margin-bottom: 48rpx;
   }
 
   @include e(field) {
@@ -161,6 +163,14 @@ function onRegister() {
     line-height: 44rpx;
     font-style: normal;
     background: #006241;
+  }
+
+  @include e(bg) {
+    position: absolute;
+    bottom: 30rpx;
+    right: 20rpx;
+    width: 256rpx;
+    height: 226rpx;
   }
 }
 </style>

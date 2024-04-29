@@ -2,7 +2,7 @@
   <view class="login">
     <back></back>
 
-    <image class="login__logo" src="/static/bg@2x.png" />
+    <image class="login__logo" src="/static/bg.png" />
 
     <van-button
       open-type="getPhoneNumber"

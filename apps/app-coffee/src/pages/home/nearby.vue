@@ -76,14 +76,15 @@ const covers = computed(() => {
           : undefined,
       }
     }),
-    isAuthed.value && {
-      id: 8008,
-      latitude: userLat.value,
-      longitude: userLng.value,
-      width: '60rpx',
-      height: '60rpx',
-      iconPath: '/static/my-local.png',
-    },
+    isAuthed.value &&
+      userLat.value && {
+        id: 8008,
+        latitude: userLat.value,
+        longitude: userLng.value,
+        width: '60rpx',
+        height: '60rpx',
+        iconPath: '/static/my-local.png',
+      },
   ].filter(Boolean)
 })
 

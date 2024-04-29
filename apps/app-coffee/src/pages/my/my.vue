@@ -4,21 +4,24 @@
 
     <div class="my__info">
       <div class="left">
-        <image class="avatar" :src="userInfo?.avatarUrl || '/static/my-default.png'" />
+        <image
+          class="avatar"
+          mode="aspectFill"
+          :src="userInfo?.avatarUrl || '/static/my-default.png'"
+        />
         <div v-if="isLogin" class="name">{{ userInfo?.nickname || '' }}</div>
         <div v-else @tap="validateLogin" class="name">登录/注册</div>
       </div>
-      <div v-if="isLogin" class="right" @tap="toInfo">
-        <van-icon name="edit" />
-      </div>
+
+      <image v-if="isLogin" @tap="toInfo" class="right" mode="aspectFill" src="/static/edit.png" />
     </div>
 
     <div v-if="isLogin" class="my__include">
-      <div class="item">
+      <div class="item" @tap="toPickup">
         <div class="number">{{ userInfo?.pickupCodeCount || 0 }}</div>
         <div class="name">提货码</div>
       </div>
-      <div class="item">
+      <div class="item" @tap="toBalance">
         <div class="number">{{ userInfo?.balance || 0 }}</div>
         <div class="name">余额(元)</div>
       </div>
@@ -76,6 +79,12 @@ function toConsume() {
 function toOrder() {
   validateLogin() && wx.navigateTo({ url: '/pages/order/order' })
 }
+function toPickup() {
+  validateLogin() && wx.switchTab({ url: '/pages/pickup/pickup-code' })
+}
+function toBalance() {
+  validateLogin() && wx.navigateTo({ url: '/pages/balance/balance' })
+}
 
 function validateLogin() {
   if (!isLogin.value) {
@@ -125,6 +134,7 @@ function validateLogin() {
         width: 112rpx;
         height: 112rpx;
         margin-right: 28rpx;
+        border-radius: 50%;
       }
       .name {
         font-family: PingFangSC, PingFang SC;
@@ -139,15 +149,7 @@ function validateLogin() {
     .right {
       width: 64rpx;
       height: 64rpx;
-      background: rgba(#000000, 0.3);
       border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .van-icon {
-        font-size: 32rpx;
-        color: #fff;
-      }
     }
   }
 
@@ -187,7 +189,6 @@ function validateLogin() {
 
   @include e(other) {
     width: 686rpx;
-    height: 368rpx;
     background: #ffffff;
     border-radius: 16rpx;
     padding: 16rpx 0;
