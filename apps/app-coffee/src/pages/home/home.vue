@@ -60,7 +60,6 @@
 </template>
 
 <script setup lang="ts">
-import { PickupCodeAPIService } from '@/app/api/services/pickup-code-api'
 import { PickupCodeComboAPIService } from '@/app/api/services/pickup-code-combo-api'
 import { PICKUP_ORIGIN_PRICE } from '@/app/constant/global'
 import { useAuthStore } from '@/store/auth'

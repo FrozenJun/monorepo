@@ -150,7 +150,6 @@
       "van-field": "/wxcomponents/dist/field/index",
       "van-tabbar": "/wxcomponents/dist/tabbar/index",
       "van-tabbar-item": "/wxcomponents/dist/tabbar-item/index",
-      "van-toast": "/wxcomponents/dist/toast/index",
       "van-icon": "/wxcomponents/dist/icon/index",
       "van-tab": "/wxcomponents/dist/tab/index",
       "van-tabs": "/wxcomponents/dist/tabs/index",
@@ -159,7 +158,6 @@
       "van-empty": "/wxcomponents/dist/empty/index",
       "van-radio": "/wxcomponents/dist/radio/index",
       "van-radio-group": "/wxcomponents/dist/radio-group/index",
-      "van-dialog": "/wxcomponents/dist/dialog/index"
     }
   },
   "tabBar": {

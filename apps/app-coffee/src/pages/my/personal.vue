@@ -1,8 +1,9 @@
 <template>
   <div class="personal">
+    <button class="button" open-type="chooseAvatar" @chooseavatar="onChooseavatar"></button>
     <van-cell-group class="cells">
       <van-cell title="头像" is-link>
-        <image class="avatar" :src="data?.avatar || '/static/my-default.png'" />
+        <image class="avatar" :src="data?.avatarUrl || '/static/my-default.png'" />
       </van-cell>
       <van-cell @tap="toNickname" title="昵称" :value="data?.nickname || ''" is-link />
       <van-cell @tap="toPhone" title="手机号" :value="phone" is-link />
@@ -11,9 +12,10 @@
 </template>
 
 <script setup lang="ts">
+import { MemberAPIService } from '@/app/api/services/member-api'
 import { useUserStore } from '@/store/user'
-import { Modal } from '@/utils/toast'
-import { computed } from 'vue'
+import { HideLoading, Loading, Modal, Toast } from '@/utils/toast'
+import { computed, ref } from 'vue'
 
 const userStore = useUserStore()
 const data = computed(() => {
@@ -36,6 +38,32 @@ async function toPhone() {
 function toNickname() {
   wx.navigateTo({ url: `/pages/my/nickname?nickname=${data.value?.nickname}` })
 }
+
+/**
+ * 用户头像
+ */
+function onChooseavatar(e: any) {
+  const path = e.detail.avatarUrl
+  if (!path) return
+  Loading('正在上传...')
+  wx.getFileSystemManager().readFile({
+    filePath: path,
+    encoding: 'base64',
+    async success(res: any) {
+      if (!res.data.startsWith('data:image')) {
+        res.data = 'data:image/png;base64,' + res.data
+      }
+      const { e } = await MemberAPIService.memberControllerUpdateAvatar({ base64: res.data })
+      if (e) return HideLoading()
+      await useUserStore().getUserDetail()
+      HideLoading()
+      Toast('修改成功')
+    },
+    fail() {
+      HideLoading()
+    },
+  })
+}
 </script>
 
 <style lang="scss">
@@ -46,6 +74,7 @@ function toNickname() {
   height: 100vh;
   background: #f7f7f7;
   padding: 24rpx;
+  position: relative;
 
   .van-cell {
     display: flex;
@@ -55,6 +84,16 @@ function toNickname() {
     width: 80rpx;
     height: 80rpx;
     border-radius: 50%;
+  }
+
+  .button {
+    position: absolute;
+    left: 48rpx;
+    top: 46rpx;
+    width: 654rpx;
+    height: 114rpx;
+    opacity: 0;
+    z-index: 100;
   }
 }
 </style>

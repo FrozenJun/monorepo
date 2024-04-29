@@ -1,62 +1,203 @@
 <template>
   <div class="nearby">
-    <map class="nearby__map" :latitude="lat" :longitude="lng" :markers="covers"></map>
+    <map
+      class="nearby__map"
+      @markertap="onBindmarkertap"
+      :latitude="lat"
+      :longitude="lng"
+      :markers="covers"
+    ></map>
 
-    <image class="nearby__local" src="/static/local.png"></image>
+    <image v-if="isAuthed" @tap="toLocal" class="nearby__local" src="/static/local.png"></image>
 
     <div class="nearby__devices">
-      <div class="device" v-for="i in 10" :key="i">
+      <div
+        class="device"
+        :class="[activeId === i.id && 'active']"
+        v-for="i in devices"
+        :key="i.id"
+        @tap="chooseDevice(i)"
+      >
         <div class="top">
-          <div class="name">No.9007 橘子水晶酒店咖啡机</div>
-          <div class="distance">距离49m</div>
+          <div class="name">{{ i.name }}</div>
+          <div class="distance">距离{{ i.distanceText }}</div>
         </div>
 
         <div class="bottom">
           <div class="left">
-            <div class="local">西湖区双龙街588号城西银泰城负一楼茶马花街B1020号</div>
-            <div class="time">营业时间 10:00～22:00</div>
+            <div class="local">{{ i.addr }}</div>
+            <!-- <div class="time">营业时间 10:00～22:00</div> -->
           </div>
-          <image class="right" src="/static/daohang.png"></image>
+          <image @tap="openLocation(i)" class="right" src="/static/daohang.png"></image>
         </div>
 
-        <image class="checked" src="/static/checked.png"></image>
+        <image v-if="activeId === i.id" class="checked" src="/static/checked.png"></image>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { DeviceAPIService } from '@/app/api/services/device-api'
+import { HideLoading, Loading, Toast } from '@/utils/toast'
+import { onShow } from '@dcloudio/uni-app'
+import { computed, ref } from 'vue'
 
-const lat = ref(39.909)
-const lng = ref(116.39742)
-const covers = ref([
-  {
-    id: 1,
-    latitude: 39.9,
-    longitude: 116.39,
-    width: '40rpx',
-    height: '52rpx',
-    iconPath: '/static/nearby-local.png',
-  },
-  {
-    id: 2,
-    latitude: 39.909,
-    longitude: 116.39742,
-    width: '60rpx',
-    height: '74rpx',
-    iconPath: '/static/nearby-local.png',
-    label: {
-      content: '水晶大楼',
-      textAlign: 'center',
-      color: '#000',
-      bgColor: '#fff',
-      borderRadius: 10,
-      padding: 4,
-      anchorY: -66,
+const lat = ref(39.908824)
+const lng = ref(116.39747)
+const userLat = ref()
+const userLng = ref()
+const devices = ref<any[]>([])
+const activeId = ref(0)
+const isLoaded = ref(false)
+const isAuthed = ref(true)
+
+const covers = computed(() => {
+  return [
+    ...devices.value.map((i) => {
+      const active = activeId.value === i.id
+      return {
+        id: i.id,
+        latitude: i.lat,
+        longitude: i.lng,
+        width: active ? '60rpx' : '40rpx',
+        height: active ? '74rpx' : '52rpx',
+        iconPath: '/static/nearby-local.png',
+        label: active
+          ? {
+              content: i.name,
+              textAlign: 'center',
+              color: '#000',
+              bgColor: '#fff',
+              borderRadius: 10,
+              padding: 4,
+              anchorY: -66,
+            }
+          : undefined,
+      }
+    }),
+    isAuthed.value && {
+      id: 8008,
+      latitude: userLat.value,
+      longitude: userLng.value,
+      width: '60rpx',
+      height: '60rpx',
+      iconPath: '/static/my-local.png',
     },
-  },
-])
+  ].filter(Boolean)
+})
+
+onShow(getLocationByPermission)
+
+function onBindmarkertap(e: any) {
+  activeId.value = e.detail.markerId
+  const device = devices.value.find((i) => i.id === activeId.value)
+  if (device) {
+    lat.value = device.lat
+    lng.value = device.lng
+  }
+}
+function toLocal() {
+  lat.value = userLat.value
+  lng.value = userLng.value
+}
+function chooseDevice(i: any) {
+  activeId.value = i.id
+  lat.value = i.lat
+  lng.value = i.lng
+}
+function openLocation(device: any) {
+  wx.openLocation({
+    latitude: device.lat,
+    longitude: device.lng,
+    address: device.addr,
+    fail(e: any) {
+      console.log('openLocation fail', e)
+    },
+  })
+}
+function getLocationByPermission() {
+  wx.getSetting({
+    success: (res: any) => {
+      console.log('getLocationByPermission', res)
+      // res.authSetting['scope.userLocation'] == undefined    表示 初始化进入该页面
+      // res.authSetting['scope.userLocation'] == false    表示 非初始化进入该页面,且未授权
+      // res.authSetting['scope.userLocation'] == true    表示 地理位置授权
+      if (
+        res.authSetting['scope.userLocation'] != undefined &&
+        res.authSetting['scope.userLocation'] == false
+      ) {
+        // 非第一次进入页面且未授权,可根据需求在此处做操作
+        if (isLoaded.value) return
+        getNearbyDevice()
+        Toast('定位授权已关闭')
+
+        isAuthed.value = false
+      } else {
+        // 获取用户位置经纬度
+        getLocation()
+      }
+    },
+  })
+}
+function getLocation() {
+  wx.getLocation({
+    type: 'gcj02',
+    success(res: any) {
+      // res包含用户位置经纬度、speed等
+      lat.value = res.latitude
+      userLat.value = res.latitude
+      lng.value = res.longitude
+      userLng.value = res.longitude
+      isAuthed.value = true
+      getNearbyDevice()
+    },
+    fail(res: any) {
+      isAuthed.value = false
+      console.log('getLocation fail', res)
+      // 用户未给定位权限，打开城市选择器
+      // 实践中发现安卓和苹果此处错误信息不同
+      if (
+        res.errMsg == 'getLocation:fail auth deny' ||
+        res.errMsg == 'getLocation:fail:auth denied'
+      ) {
+        // 不做处理
+      }
+    },
+  })
+}
+async function getNearbyDevice() {
+  !isLoaded.value && Loading('加载中...')
+  const { e, data } = await DeviceAPIService.deviceControllerGetNearby({
+    lat: lat.value,
+    lng: lng.value,
+  })
+  HideLoading()
+  if (e) return
+  isLoaded.value = true
+  devices.value = data
+    .filter((i: any, index: number) => index < 10)
+    .map((i: any, index: number) => {
+      return {
+        ...i,
+        id: Number(i.id),
+        active: index === 0,
+        distanceText:
+          i.distance > 1000
+            ? `${Math.round(i.distance / 100) / 10}km`
+            : `${Math.round(i.distance)}m`,
+      }
+    })
+  if (
+    devices.value.length &&
+    (!activeId.value || !devices.value.find((i) => i.id === activeId.value))
+  ) {
+    const device = devices.value[0]
+    activeId.value = device.id
+    lat.value = device.lat
+    lng.value = device.lng
+  }
+}
 </script>
 
 <style lang="scss">
@@ -91,12 +232,16 @@ const covers = ref([
       width: 702rpx;
       background: #ffffff;
       border-radius: 24rpx;
-      border: 2rpx solid #006241;
+      border: 2rpx solid #fff;
       margin-bottom: 24rpx;
       display: flex;
       flex-direction: column;
       padding: 32rpx;
       position: relative;
+      transition: border-color 0.2s;
+      &.active {
+        border-color: #006241;
+      }
 
       .top {
         display: flex;
@@ -140,9 +285,6 @@ const covers = ref([
             text-align: left;
             font-style: normal;
           }
-          .time {
-            margin-top: 8rpx;
-          }
         }
         .right {
           width: 56rpx;
@@ -156,6 +298,7 @@ const covers = ref([
         bottom: 0;
         width: 84rpx;
         height: 84rpx;
+        pointer-events: none;
       }
     }
   }

@@ -10,6 +10,7 @@
       name="phone"
       placeholder="请输入新的手机号码"
       :border="false"
+      clearable
       @change="phone = $event.detail"
       :error-message="errorMessage"
     />
