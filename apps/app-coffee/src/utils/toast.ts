@@ -57,7 +57,11 @@ export function Modal(options: UniApp.ShowModalOptions) {
     uni.showModal({
       ...options,
       success: (res) => {
-        resolve(res)
+        if (res.confirm) {
+          resolve(res)
+        } else {
+          reject(res)
+        }
       },
       fail: (res) => {
         reject(res)

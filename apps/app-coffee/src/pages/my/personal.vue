@@ -32,12 +32,15 @@ const phone = computed(() => {
 })
 
 async function toPhone() {
-  await Modal({
+  Modal({
     title: '提示',
     content: '确定要更换手机号吗？',
     confirmColor: '#006241',
   })
-  wx.navigateTo({ url: `/pages/my/phone` })
+    .then(() => {
+      wx.navigateTo({ url: `/pages/my/phone` })
+    })
+    .catch(() => {})
 }
 function toNickname() {
   wx.navigateTo({ url: `/pages/my/nickname?nickname=${data.value?.nickname}` })
