@@ -6,6 +6,13 @@
       "path": "pages/home/home"
     },
     {
+      "path": "pages/order/order-settle",
+      "style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "订单结算"
+      }
+    },
+    {
       "path": "pages/my/nickname",
       "style": {
         "navigationStyle": "default",
@@ -27,13 +34,6 @@
       }
     },
     {
-      "path": "pages/my/connect",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "联系方式"
-      }
-    },
-    {
       "path": "pages/my/consume",
       "style": {
         "navigationStyle": "default",
@@ -47,13 +47,7 @@
         "navigationBarTitleText": "支付成功"
       }
     },
-    {
-      "path": "pages/order/order-settle",
-      "style": {
-        "navigationStyle": "default",
-        "navigationBarTitleText": "订单结算"
-      }
-    },
+
     {
       "path": "pages/balance/balance-result",
       "style": {
@@ -145,12 +139,27 @@
             "navigationStyle": "default",
             "navigationBarTitleText": "支付协议"
           }
+        },
+        {
+          "path": "my/connect",
+          "style": {
+            "navigationStyle": "default",
+            "navigationBarTitleText": "联系方式"
+          }
         }
       ]
     }
   ],
   "preloadRule": {
     "pages/auth/login": {
+      "network": "all",
+      "packages": ["subpages"]
+    },
+    "pages/my/my": {
+      "network": "all",
+      "packages": ["subpages"]
+    },
+    "pages/order/order-paid": {
       "network": "all",
       "packages": ["subpages"]
     }

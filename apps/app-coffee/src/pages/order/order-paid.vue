@@ -60,7 +60,7 @@ async function getDetail(id: string) {
 }
 
 function toConnect() {
-  wx.navigateTo({ url: '/pages/my/connect' })
+  wx.navigateTo({ url: '/subpages/my/connect' })
 }
 </script>
 

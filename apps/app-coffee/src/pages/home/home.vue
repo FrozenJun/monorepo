@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="home__top">
-      <image class="home__img" src="/static/banner.png" />
+      <image class="home__img" src="/static/banner2.png" />
 
       <div class="home__info" :class="[isLogin && 'is-logined']">
         <image v-if="!isLogin" class="home__info-bg" src="/static/home-bg.png" />
@@ -21,11 +21,11 @@
             :src="userInfo?.avatarUrl"
             :alt="userInfo?.nickname"
           />
-          <div class="info">
+          <div class="info" @tap="goPickup">
             <div class="number">{{ userInfo?.pickupCodeCount || 0 }}</div>
             <div class="name">提货码</div>
           </div>
-          <div class="info">
+          <div class="info" @tap="toBalance">
             <div class="number">{{ userInfo?.balance || 0 }}</div>
             <div class="name">余额(元)</div>
           </div>
@@ -95,6 +95,9 @@ function goPay() {
 }
 function goPickup() {
   wx.switchTab({ url: '/pages/pickup/pickup-code' })
+}
+function toBalance() {
+  validateLogin() && wx.navigateTo({ url: '/pages/balance/balance' })
 }
 
 const pickups = ref<any[]>([])

@@ -40,11 +40,12 @@ const props = defineProps({
 const list = ref<BalanceDetailsVo[]>([])
 const pageNo = ref(1)
 const pageSize = 10
+const total = ref(0)
 const isLoading = ref(false)
 
 getDetails()
 function loadMore() {
-  if (!isLoading.value) {
+  if (!isLoading.value && total.value > list.value.length) {
     isLoading.value = true
     pageNo.value++
     getDetails()
@@ -60,6 +61,7 @@ async function getDetails() {
   HideLoading()
   isLoading.value = false
   if (e) return
+  total.value = data?.total || 0
   list.value.push(...(data?.items || []))
 }
 </script>

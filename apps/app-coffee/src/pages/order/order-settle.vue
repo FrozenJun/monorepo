@@ -39,7 +39,7 @@
         <div class="unit">￥</div>
         <div class="number">{{ data?.amountText || '0.00' }}</div>
       </div>
-      <van-button @tap="toPay">立即支付</van-button>
+      <van-button :disabled="paid" @tap="toPay">立即支付</van-button>
     </div>
   </div>
 </template>
@@ -52,7 +52,7 @@ import { OrderAPIService } from '@/app/api/services/order-api'
 import { Loading, HideLoading, Toast } from '@/utils/toast'
 import type { OrderDetailVo } from '@/app/api/models/order-detail-vo'
 import { onLoad } from '@dcloudio/uni-app'
-import { OrderPayway } from '@/app/api/services/enum'
+import { OrderPayway, OrderStatus } from '@/app/api/services/enum'
 import { useUserStore } from '@/store/user'
 import { payOrder } from '@/utils/pay'
 
@@ -63,6 +63,8 @@ const authStore = useAuthStore()
 const userStore = useUserStore()
 const isLogin = computed(() => authStore.token)
 const userInfo = computed(() => userStore.userInfo)
+
+const paid = ref(false)
 validateLogin()
 function validateLogin() {
   if (!isLogin.value) {
@@ -79,8 +81,12 @@ const data = computed(() => {
     amountText: ((order.value?.amount || 0) / 100).toFixed(2),
   }
 })
-onLoad((params: any) => {
-  getDetail(params.id)
+onLoad((query: any) => {
+  if (!query.q) return Toast('订单入口错误')
+  const q = decodeURIComponent(query.q) // 获取到二维码原始链接内容
+  const id = getQueryVariable(q, 'id')
+  if (!id) return Toast('订单ID不存在')
+  getDetail(id)
 })
 async function getDetail(id: string) {
   Loading('加载中...')
@@ -89,6 +95,10 @@ async function getDetail(id: string) {
   })
   HideLoading()
   if (e || !data) return
+  if (data.status !== OrderStatus.未支付) {
+    Toast('订单已支付')
+    paid.value = true
+  }
   order.value = data
 
   if (balanceDisabled.value) radio.value = OrderPayway.微信支付
@@ -114,6 +124,7 @@ function toBuy() {
  * 支付
  */
 async function toPay() {
+  if (paid.value) return
   if (!data.value.id) return Toast('订单ID不存在')
   if (radio.value === OrderPayway.余额支付) {
     Loading('支付中...')
@@ -130,9 +141,23 @@ async function toPay() {
 async function paySuccess() {
   await useUserStore().getUserDetail()
   Toast('支付成功')
-  wx.navigateTo({
+  wx.redirectTo({
     url: `/pages/order/order-paid?id=${data.value.id}`,
   })
+}
+function getQueryVariable(url: string, variable: string) {
+  let query = url.split('?')[1]
+  if (!query) {
+    return null
+  }
+  let vars = query.split('&')
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split('=')
+    if (pair[0] === variable) {
+      return pair[1]
+    }
+  }
+  return null
 }
 </script>
 

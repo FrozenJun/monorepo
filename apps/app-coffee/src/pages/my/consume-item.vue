@@ -63,7 +63,7 @@ const result = computed<Record<string, any>>(() => {
     ...props.data,
     img,
     amountText,
-    time: dayjs(props.data.payAt).format('MM-DD HH:mm'),
+    time: dayjs(props.data.createdAt).format('MM-DD HH:mm'),
   }
 })
 </script>

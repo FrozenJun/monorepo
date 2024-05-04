@@ -1,6 +1,8 @@
 <template>
   <div class="order-info">
-    <div class="device">{{ order.deviceInfo?.name || '未知设备' }}<van-icon name="arrow" /></div>
+    <div class="device" @tap="openLocation">
+      {{ order.deviceInfo?.name || '未知设备' }}<van-icon name="arrow" />
+    </div>
     <div class="divide"></div>
     <div class="goods">
       <div class="good" v-for="(i, index) in goods" :key="index">
@@ -60,6 +62,17 @@ const goods = computed(() =>
 )
 
 const isExpand = ref(false)
+
+function openLocation() {
+  const device = props.order.deviceInfo
+  wx.openLocation({
+    latitude: device.lat,
+    longitude: device.lng,
+    fail(e: any) {
+      console.log('openLocation fail', e)
+    },
+  })
+}
 </script>
 
 <style lang="scss">

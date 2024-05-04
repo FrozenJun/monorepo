@@ -8,7 +8,7 @@
 
     <div class="connect__code">
       <image show-menu-by-longpress src="/static/wechat-code.png" />
-      <div class="desc">长按二维码复制添加客服微信</div>
+      <div class="desc">长按二维码添加客服微信</div>
     </div>
   </div>
 </template>
@@ -67,6 +67,9 @@ function callPhone() {
     background: #ffffff;
     border-radius: 16rpx;
     padding: 48rpx 194rpx 80rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     image {
       width: 320rpx;
@@ -79,7 +82,7 @@ function callPhone() {
       font-size: 24rpx;
       color: #666666;
       line-height: 34rpx;
-      text-align: left;
+      text-align: center;
       font-style: normal;
     }
   }

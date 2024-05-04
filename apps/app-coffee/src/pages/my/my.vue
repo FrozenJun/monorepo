@@ -71,7 +71,7 @@ function toInfo() {
   })
 }
 function toConnect() {
-  wx.navigateTo({ url: '/pages/my/connect' })
+  wx.navigateTo({ url: '/subpages/my/connect' })
 }
 function toConsume() {
   validateLogin() && wx.navigateTo({ url: '/pages/my/consume' })

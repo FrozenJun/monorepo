@@ -65,17 +65,23 @@ export async function payBalance(comboId: string, onSuccess: any) {
 
 export async function payOrder(orderId: string, onSuccess: any) {
   Loading('正在拉起支付...')
-  const { e, data } = await OrderAPIService.orderControllerBalancePay({
-    orderId,
-  })
-  HideLoading()
-  if (e) return
-  wx.requestPayment({
-    appId: APP_ID,
-    success: onSuccess,
-    fail: () => {
-      Toast('支付已取消')
-    },
-    ...data,
-  })
+  const code = await getCode()
+  if (code) {
+    const { e, data } = await OrderAPIService.orderControllerGetWepayParam({
+      orderId,
+      code,
+    })
+    HideLoading()
+    if (e) return
+    wx.requestPayment({
+      appId: APP_ID,
+      success: onSuccess,
+      fail: () => {
+        Toast('支付已取消')
+      },
+      ...data,
+    })
+  } else {
+    HideLoading()
+  }
 }
