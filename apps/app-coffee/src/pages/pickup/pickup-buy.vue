@@ -20,7 +20,7 @@ import { computed } from 'vue'
 import { ref } from 'vue'
 
 const data = ref<Record<string, any>>({})
-const money = computed(() => `￥${data.value.amount || 0}`)
+const money = computed(() => `￥${data.value.amount || 0}`) // 传过来是amount单位已经除以100
 const count = computed(() => `${data.value.count || 0}张提货码`)
 onLoad((params: any) => {
   data.value = params

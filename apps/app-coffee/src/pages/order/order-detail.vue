@@ -5,7 +5,7 @@
 
       <div v-if="data.isPartOk" class="top-other">
         <div class="left">部分退款成功</div>
-        <div class="right">￥{{ data.refundedAmount }}</div>
+        <div class="right">￥{{ (data.refundedAmount || 0) / 100 }}</div>
       </div>
     </div>
 

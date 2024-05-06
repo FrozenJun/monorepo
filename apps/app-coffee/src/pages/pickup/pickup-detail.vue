@@ -42,5 +42,39 @@ const active = ref(0)
   width: 100%;
   height: 100vh;
   background: #f7f7f7;
+
+  .van-empty {
+    width: 100%;
+    height: 100%;
+    padding-top: 240rpx;
+    background: #f7f7f7;
+    .van-empty__image,
+    image {
+      width: 326rpx;
+      height: 254rpx;
+    }
+    .van-empty__description {
+      margin-top: 46rpx;
+      font-family: PingFangSC, PingFang SC;
+      font-weight: 400;
+      font-size: 28rpx;
+      color: #333333;
+      line-height: 40rpx;
+      text-align: left;
+      font-style: normal;
+    }
+    .van-empty__bottom {
+      margin-top: 24rpx;
+    }
+    .empty {
+      font-family: PingFangSC, PingFang SC;
+      font-weight: 400;
+      font-size: 28rpx;
+      color: #999999;
+      line-height: 40rpx;
+      text-align: center;
+      font-style: normal;
+    }
+  }
 }
 </style>

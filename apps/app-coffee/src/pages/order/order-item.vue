@@ -33,7 +33,7 @@
 
     <div class="order-item__bottom" @tap="toDetail">
       <div class="bottom-left">
-        <div v-if="result.isPartOk">成功退款￥{{ result.refundedAmount }}</div>
+        <div v-if="result.isPartOk">成功退款￥{{ result.refundedAmount / 100 }}</div>
       </div>
       <div class="bottom-right">{{ result.paywayText }}</div>
     </div>
