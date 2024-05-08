@@ -120,7 +120,7 @@ async function getAllPickup() {
       ...i,
       amount,
       price,
-      discount: (PICKUP_ORIGIN_PRICE - price) * i.count,
+      discount: Math.round((PICKUP_ORIGIN_PRICE * i.count - amount) * 100) / 100,
     }
   })
 }
