@@ -58,6 +58,8 @@
             </div>
             <van-button block round @tap="buyPickup(i)">购买</van-button>
           </div>
+
+          <div class="abs" v-if="i.forNewMember">新用户优惠</div>
         </div>
       </div>
     </div>
@@ -339,6 +341,25 @@ function validateLogin() {
         margin-right: 16rpx;
         display: flex;
         justify-content: space-between;
+        position: relative;
+
+        .abs {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 158rpx;
+          height: 34rpx;
+          border-top-right-radius: 16rpx;
+          border-bottom-left-radius: 16rpx;
+          background-color: #fe6f21;
+          font-family: PingFangSC, PingFang SC;
+          font-weight: 400;
+          font-size: 22rpx;
+          color: #ffffff;
+          line-height: 34rpx;
+          text-align: center;
+          font-style: normal;
+        }
       }
       .item-left {
         display: flex;
