@@ -12,11 +12,14 @@
       <van-cell @tap="toNickname" title="昵称" :value="data?.nickname || ''" is-link />
       <van-cell @tap="toPhone" title="手机号" :value="phone" is-link />
     </van-cell-group>
+
+    <van-button class="logout" @tap="logout">退出登录</van-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { MemberAPIService } from '@/app/api/services/member-api'
+import { useAuthStore } from '@/store/auth'
 import { useUserStore } from '@/store/user'
 import { HideLoading, Loading, Modal, Toast } from '@/utils/toast'
 import { computed, ref } from 'vue'
@@ -71,6 +74,21 @@ function onChooseavatar(e: any) {
     },
   })
 }
+
+function logout() {
+  Modal({
+    title: '提示',
+    content: '确定要退出吗？',
+    confirmColor: '#006241',
+  })
+    .then(() => {
+      useAuthStore().loginOut()
+      userStore.setUserInfo(undefined)
+      wx.navigateBack()
+      Toast('退出成功')
+    })
+    .catch(() => {})
+}
 </script>
 
 <style lang="scss">
@@ -101,6 +119,25 @@ function onChooseavatar(e: any) {
     height: 114rpx;
     opacity: 0;
     z-index: 100;
+  }
+
+  .logout {
+    .van-button {
+      position: absolute;
+      bottom: 120rpx;
+      left: 48rpx;
+      width: 654rpx;
+      height: 96rpx;
+      border-radius: 48rpx;
+      background: #cf372b;
+      font-family: PingFangSC, PingFang SC;
+      font-weight: 500;
+      font-size: 32rpx;
+      color: #ffffff;
+      line-height: 44rpx;
+      text-align: left;
+      font-style: normal;
+    }
   }
 }
 </style>

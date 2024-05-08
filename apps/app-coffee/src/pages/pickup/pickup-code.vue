@@ -9,7 +9,7 @@
         <div class="left">
           <div class="name">提货码</div>
           <div class="count">
-            <div class="strong">{{ unusedPickups.length }}</div>
+            <div class="strong">{{ pickupCodeCount }}</div>
             <div class="unit">张</div>
           </div>
         </div>
@@ -26,7 +26,7 @@
       </div>
 
       <div
-        v-if="unusedPickups.length > 3"
+        v-if="isLogin && unusedPickups.length > 3"
         @tap="isExpand = !isExpand"
         class="expand"
         :class="[isExpand && 'is-expanded']"
@@ -75,8 +75,11 @@ const isLogin = computed(() => authStore.token)
 const unusedPickups = ref<any[]>([])
 const pickups = ref<any[]>([])
 const isExpand = ref(false)
+const pickupCodeCount = computed(() => {
+  return isLogin.value ? unusedPickups.value.length : 0
+})
 const renderUnusedPks = computed(() => {
-  return unusedPickups.value.filter((i, index) => isExpand.value || index < 3)
+  return isLogin.value ? unusedPickups.value.filter((i, index) => isExpand.value || index < 3) : []
 })
 
 onShow(() => {
@@ -86,12 +89,16 @@ onShow(() => {
 async function getAllPickup() {
   const { e, data } = await PickupCodeComboAPIService.pickupCodeComboControllerGetAll()
   if (e || !data) return
-  pickups.value = data.map((i) => ({
-    ...i,
-    amount: i.amount / 100,
-    price: Math.round((i.amount / 100 / i.count) * 100) / 100,
-    discount: (PICKUP_ORIGIN_PRICE - i.amount / 100) * i.count,
-  }))
+  pickups.value = data.map((i) => {
+    const amount = i.amount / 100
+    const price = Math.floor((amount / i.count) * 100) / 100
+    return {
+      ...i,
+      amount,
+      price,
+      discount: Math.round((PICKUP_ORIGIN_PRICE * i.count - amount) * 100) / 100,
+    }
+  })
 }
 async function getUnusedPickups() {
   const { e, data } = await PickupCodeAPIService.pickupCodeControllerGetMemberUnused()

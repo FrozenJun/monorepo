@@ -1,18 +1,18 @@
 <template>
-  <div class="order-item" @tap="toDetail">
+  <div class="order-item">
     <div class="order-item__top">
-      <div class="device">
+      <div class="device" @tap="openLocation">
         {{ result.deviceInfo?.name || '未知设备' }} <van-icon name="arrow" />
       </div>
 
-      <div class="status" :class="[result.isCancle && 'cancled']">
+      <div @tap="toDetail" class="status" :class="[result.isCancle && 'cancled']">
         {{ result.isCancle ? '已退款' : '已完成' }}
       </div>
     </div>
 
-    <div class="time">{{ result.time }}</div>
+    <div class="time" @tap="toDetail">{{ result.time }}</div>
 
-    <div class="order-item__content">
+    <div class="order-item__content" @tap="toDetail">
       <div class="goods">
         <div class="good" :class="['is-column']" v-for="(i, index) in result.goods" :key="index">
           <image mode="aspectFill" src="/static/coffee.png" />
@@ -29,11 +29,11 @@
       </div>
     </div>
 
-    <div class="order-item__divide"></div>
+    <div class="order-item__divide" @tap="toDetail"></div>
 
-    <div class="order-item__bottom">
+    <div class="order-item__bottom" @tap="toDetail">
       <div class="bottom-left">
-        <div v-if="result.isPartOk">成功退款￥{{ result.refundedAmount }}</div>
+        <div v-if="result.isPartOk">成功退款￥{{ result.refundedAmount / 100 }}</div>
       </div>
       <div class="bottom-right">{{ result.paywayText }}</div>
     </div>
@@ -77,6 +77,16 @@ const result = computed<Record<string, any>>(() => {
 function toDetail() {
   wx.navigateTo({
     url: '/pages/order/order-detail?id=' + result.value.id,
+  })
+}
+function openLocation() {
+  const device = props.data.deviceInfo
+  wx.openLocation({
+    latitude: device.lat,
+    longitude: device.lng,
+    fail(e: any) {
+      console.log('openLocation fail', e)
+    },
   })
 }
 </script>

@@ -59,7 +59,7 @@ const result = computed<Record<string, any>>(() => {
     ...props.data,
     img,
     amountText,
-    time: dayjs(props.data.payAt).format('MM-DD HH:mm'),
+    time: dayjs(props.data.createdAt).format('MM-DD HH:mm'),
   }
 })
 </script>
@@ -165,7 +165,7 @@ balance-item {
       text-align: right;
       font-style: normal;
 
-      &.is-add {
+      &.is-black {
         color: #000;
       }
     }

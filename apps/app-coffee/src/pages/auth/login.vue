@@ -2,7 +2,7 @@
   <view class="login">
     <back></back>
 
-    <image class="login__logo" src="/static/bg.png" />
+    <image class="login__logo" src="/static/bg@3x.png" />
 
     <van-button
       open-type="getPhoneNumber"
@@ -11,10 +11,10 @@
       block
       round
       :disabled="!checked"
-      >微信一键登录</van-button
+      >手机号快捷登录</van-button
     >
     <van-button class="login__phone-btn" @click="navigateToPhone" block round
-      >手机号安全登录</van-button
+      >手机验证码登录</van-button
     >
 
     <protocol @checked-change="onCheckedChange"></protocol>

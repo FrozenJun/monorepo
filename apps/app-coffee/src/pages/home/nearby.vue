@@ -96,6 +96,7 @@ function onBindmarkertap(e: any) {
   if (device) {
     lat.value = device.lat
     lng.value = device.lng
+    openLocation(device)
   }
 }
 function toLocal() {
@@ -176,7 +177,7 @@ async function getNearbyDevice() {
   HideLoading()
   if (e) return
   isLoaded.value = true
-  devices.value = data
+  devices.value = (data || [])
     .filter((i: any, index: number) => index < 10)
     .map((i: any, index: number) => {
       return {

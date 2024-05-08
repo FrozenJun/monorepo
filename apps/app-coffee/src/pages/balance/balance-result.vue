@@ -10,7 +10,7 @@
       <van-cell title="支付方式" value="微信支付" />
     </van-cell-group>
 
-    <van-button @tap="toNear">立即享用</van-button>
+    <van-button @tap="toEnjoy">立即享用</van-button>
   </div>
 </template>
 
@@ -26,8 +26,13 @@ onLoad((params: any) => {
   data.value = params
 })
 
-function toNear() {
-  wx.switchTab({ url: '/pages/home/nearby' })
+function toEnjoy() {
+  const pages = getCurrentPages()
+  if (pages.find((i) => i.route?.includes('order-settle'))) {
+    wx.navigateBack({ delta: 2 })
+  } else {
+    wx.switchTab({ url: '/pages/home/nearby' })
+  }
 }
 </script>
 
