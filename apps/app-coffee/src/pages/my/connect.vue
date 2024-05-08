@@ -6,6 +6,12 @@
       <image class="arrow" src="/static/arr-right@2x.png" />
     </div>
 
+    <div class="connect__item" @tap="callHz">
+      <image class="avatar" mode="aspectFill" src="/static/hezuo.png" />
+      <div class="name">找我们合作</div>
+      <image class="arrow" src="/static/arr-right@2x.png" />
+    </div>
+
     <div class="connect__code">
       <image show-menu-by-longpress src="/static/wechat-code.png" />
       <div class="desc">长按二维码复制添加客服微信</div>
@@ -17,6 +23,11 @@
 function callPhone() {
   wx.makePhoneCall({
     phoneNumber: '13366151709',
+  })
+}
+function callHz() {
+  wx.makePhoneCall({
+    phoneNumber: '13691197363',
   })
 }
 </script>
