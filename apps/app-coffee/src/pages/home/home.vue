@@ -113,12 +113,16 @@ function buyPickup({ id, count, amount }: any) {
 async function getAllPickup() {
   const { e, data } = await PickupCodeComboAPIService.pickupCodeComboControllerGetAll()
   if (e || !data) return
-  pickups.value = data.map((i) => ({
-    ...i,
-    amount: i.amount / 100,
-    price: Math.round((i.amount / 100 / i.count) * 100) / 100,
-    discount: (PICKUP_ORIGIN_PRICE - i.amount / 100) * i.count,
-  }))
+  pickups.value = data.map((i) => {
+    const amount = i.amount / 100
+    const price = Math.floor((amount / i.count) * 100) / 100
+    return {
+      ...i,
+      amount,
+      price,
+      discount: (PICKUP_ORIGIN_PRICE - price) * i.count,
+    }
+  })
 }
 function validateLogin() {
   if (!isLogin.value) {
