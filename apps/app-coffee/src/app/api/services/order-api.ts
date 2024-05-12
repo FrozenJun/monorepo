@@ -11,6 +11,7 @@ import { OrderUserPageDto } from '../models/order-user-page-dto';
 import { OrderUserVo } from '../models/order-user-vo';
 import { OrderWepayDto } from '../models/order-wepay-dto';
 import { PageRequestVo } from '../models/page-request-vo';
+import { PickupCodePayDto } from '../models/pickup-code-pay-dto';
 import { WepayAppCallParam } from '../models/wepay-app-call-param';
 
 class OrderAPI {
@@ -91,6 +92,26 @@ class OrderAPI {
     orderControllerBalancePay(params?: OrderBalancePayDto) {
       return HttpAppSend<any>({
         url: '/api/v1/order/balance-pay', 
+      bodyType: 'RAW_JSON',
+        params: 
+          params &&
+          Object.keys(params)
+            .filter(key => [''].includes(key))
+            .reduce((obj, i) => {
+              obj[i] = params[i]
+              return obj
+            }, {}),
+      data: params,
+        method: 'POST',
+      })
+    }
+        
+  /**
+     * 提货码支付
+     */
+    orderControllerPickupCodePay(params?: PickupCodePayDto) {
+      return HttpAppSend<any>({
+        url: '/api/v1/order/pickup-code-pay', 
       bodyType: 'RAW_JSON',
         params: 
           params &&

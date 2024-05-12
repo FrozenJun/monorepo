@@ -11,6 +11,11 @@ export interface OrderUserPageDto {
    * 查询开始时间
    */
   createdAtStart?: number;
+
+  /**
+   * 会员id
+   */
+  memberId?: string;
   page: number;
 
   /**

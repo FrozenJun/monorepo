@@ -52,6 +52,11 @@ export interface ConsumptionRecordUserVo {
   payAt?: number;
 
   /**
+   * 提货码套餐id
+   */
+  pickupCodeComboId?: string;
+
+  /**
    * 提货码数量
    */
   pickupCodeCount?: number;

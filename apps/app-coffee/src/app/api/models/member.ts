@@ -19,6 +19,11 @@ export interface Member {
   id: string;
 
   /**
+   * 新会员
+   */
+  newMember: boolean;
+
+  /**
    * 昵称
    */
   nickname?: string;

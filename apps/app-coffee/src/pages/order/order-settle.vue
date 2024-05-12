@@ -28,6 +28,24 @@
               </view>
               <van-radio slot="right-icon" :name="OrderPayway.微信支付" checked-color="#006241" />
             </van-cell>
+
+            <van-cell
+              v-if="pickupPayDisabled"
+              clickable
+              :data-name="OrderPayway.提货码"
+              @click="changePayway"
+            >
+              <view class="title" slot="title">
+                <image src="/static/pickup-pay.png" />
+                <view class="text">提货码支付</view>
+              </view>
+              <view class="pickup" slot="right-icon">
+                <view @tap="toPickupChoose" class="code"
+                  >{{ choosedPickup }}<van-icon name="arrow"
+                /></view>
+                <van-radio :name="OrderPayway.提货码" checked-color="#006241" />
+              </view>
+            </van-cell>
           </van-cell-group>
         </van-radio-group>
       </div>
@@ -55,6 +73,7 @@ import { onLoad } from '@dcloudio/uni-app'
 import { OrderPayway, OrderStatus } from '@/app/api/services/enum'
 import { useUserStore } from '@/store/user'
 import { payOrder } from '@/utils/pay'
+import { PickupCodeAPIService } from '@/app/api/services/pickup-code-api'
 
 /**
  * 判断用户是否未登录与用户信息
@@ -63,16 +82,10 @@ const authStore = useAuthStore()
 const userStore = useUserStore()
 const isLogin = computed(() => authStore.token)
 const userInfo = computed(() => userStore.userInfo)
+const unusedPickups = ref<any[]>([])
+const choosedPickup = ref('')
 
 const paid = ref(false)
-validateLogin()
-function validateLogin() {
-  if (!isLogin.value) {
-    wx.navigateTo({ url: '/pages/auth/login' })
-  } else {
-    return true
-  }
-}
 
 const order = ref<OrderDetailVo | undefined>()
 const data = computed(() => {
@@ -81,27 +94,45 @@ const data = computed(() => {
     amountText: ((order.value?.amount || 0) / 100).toFixed(2),
   }
 })
-onLoad((query: any) => {
+
+onLoad(async (query: any) => {
+  validateLogin()
+  getUnusedPickups()
   if (!query.q) return Toast('订单入口错误')
   const q = decodeURIComponent(query.q) // 获取到二维码原始链接内容
   const id = getQueryVariable(q, 'id')
   if (!id) return Toast('订单ID不存在')
-  getDetail(id)
-})
-async function getDetail(id: string) {
   Loading('加载中...')
+  await Promise.all([getDetail(id), getUnusedPickups()])
+  HideLoading()
+  if (balanceDisabled.value) {
+    radio.value = pickupPayDisabled.value ? OrderPayway.微信支付 : OrderPayway.提货码
+  }
+})
+
+async function getDetail(id: string) {
   const { e, data } = await OrderAPIService.orderControllerGetOrderDetail({
     id,
   })
-  HideLoading()
   if (e || !data) return
   if (data.status !== OrderStatus.未支付) {
     Toast('订单已支付')
     paid.value = true
   }
   order.value = data
-
-  if (balanceDisabled.value) radio.value = OrderPayway.微信支付
+}
+async function getUnusedPickups() {
+  const { e, data } = await PickupCodeAPIService.pickupCodeControllerGetMemberUnused()
+  if (e || !data) return
+  unusedPickups.value = data
+  choosedPickup.value = data[0]?.code || ''
+}
+function validateLogin() {
+  if (!isLogin.value) {
+    wx.navigateTo({ url: '/pages/auth/login' })
+  } else {
+    return true
+  }
 }
 
 /**
@@ -110,14 +141,22 @@ async function getDetail(id: string) {
 const balanceDisabled = computed(() => {
   return data.value?.amount && data.value?.amount / 100 > (userInfo.value?.balance || 0)
 })
+const pickupPayDisabled = computed(() => {
+  return (order.value as any)?.goodsCount !== 1 || !unusedPickups.value.length
+})
 const radio = ref(OrderPayway.余额支付)
 function changePayway(e: any) {
+  if (e.currentTarget.dataset?.name === OrderPayway.提货码 && !choosedPickup.value)
+    return wx.navigateTo({ url: '/pages/pickup/pickup-choose' })
   if (balanceDisabled.value && e.currentTarget.dataset?.name === OrderPayway.余额支付) return
   radio.value = e.currentTarget.dataset?.name
 }
 
 function toBuy() {
   validateLogin() && wx.navigateTo({ url: '/pages/balance/balance-recharge' })
+}
+function toPickupChoose() {
+  wx.navigateTo({ url: '/pages/pickup/pickup-choose' })
 }
 
 /**
@@ -238,6 +277,31 @@ function getQueryVariable(url: string, variable: string) {
             line-height: 28rpx;
             text-align: left;
             font-style: normal;
+          }
+        }
+      }
+
+      .pickup {
+        display: flex;
+        align-items: center;
+
+        .code {
+          height: 40rpx;
+          border-radius: 20rpx;
+          border: 2rpx solid rgba(#ff2d19, 0.2);
+          display: flex;
+          align-items: center;
+          font-weight: 500;
+          font-size: 24rpx;
+          color: #ff2d19;
+          line-height: 40rpx;
+          text-align: center;
+          font-style: normal;
+          padding: 0 16rpx;
+          margin-right: 24rpx;
+
+          .van-icon {
+            font-size: 28rpx;
           }
         }
       }

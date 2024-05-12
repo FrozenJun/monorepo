@@ -1,17 +1,11 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface DeviceGetNearbyVo {
+export interface DeviceUpdateDto {
 
   /**
    * 设备地址
    */
   addr: string;
-
-  /**
-   * 距离(m)
-   */
-  distance: number;
-  id: string;
   lat: number;
   lng: number;
 

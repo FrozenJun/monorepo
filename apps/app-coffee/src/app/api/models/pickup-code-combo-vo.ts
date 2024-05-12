@@ -16,6 +16,11 @@ export interface PickupCodeComboVo {
    * 创建时间
    */
   createdAt: number;
+
+  /**
+   * 新会员专享
+   */
+  forNewMember: boolean;
   id: string;
 
   /**
