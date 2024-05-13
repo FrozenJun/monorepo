@@ -6,7 +6,7 @@
       <div class="order-settle__choose">
         <van-radio-group :value="radio">
           <van-cell-group>
-            <van-cell clickable :data-name="OrderPayway.余额支付" @click="changePayway">
+            <van-cell clickable :data-name="OrderPayway.余额支付" @tap="changePayway">
               <view class="title" slot="title" :class="[balanceDisabled && 'disabled']">
                 <image src="/static/balance.png" />
                 <div class="right">
@@ -21,7 +21,7 @@
                 checked-color="#006241"
               />
             </van-cell>
-            <van-cell clickable :data-name="OrderPayway.微信支付" @click="changePayway">
+            <van-cell clickable :data-name="OrderPayway.微信支付" @tap="changePayway">
               <view class="title" slot="title">
                 <image src="/static/wc-pay.png" />
                 <view class="text">微信支付</view>
@@ -30,10 +30,10 @@
             </van-cell>
 
             <van-cell
-              v-if="pickupPayDisabled"
+              v-if="!pickupPayDisabled"
               clickable
               :data-name="OrderPayway.提货码"
-              @click="changePayway"
+              @tap="changePayway"
             >
               <view class="title" slot="title">
                 <image src="/static/pickup-pay.png" />
@@ -55,7 +55,7 @@
       <div class="left">
         <div class="desc">合计：</div>
         <div class="unit">￥</div>
-        <div class="number">{{ data?.amountText || '0.00' }}</div>
+        <div class="number">{{ amountView }}</div>
       </div>
       <van-button :disabled="paid" @tap="toPay">立即支付</van-button>
     </div>
@@ -74,6 +74,7 @@ import { OrderPayway, OrderStatus } from '@/app/api/services/enum'
 import { useUserStore } from '@/store/user'
 import { payOrder } from '@/utils/pay'
 import { PickupCodeAPIService } from '@/app/api/services/pickup-code-api'
+import { onBeforeUnmount } from 'vue'
 
 /**
  * 判断用户是否未登录与用户信息
@@ -84,6 +85,19 @@ const isLogin = computed(() => authStore.token)
 const userInfo = computed(() => userStore.userInfo)
 const unusedPickups = ref<any[]>([])
 const choosedPickup = ref('')
+const pickupChoosedPath = computed(() => {
+  return `/pages/pickup/pickup-choose${choosedPickup.value ? `?code=${choosedPickup.value}` : ''}`
+})
+
+/**
+ * 获取选择提货码页面选择的数据
+ */
+uni.$on('pickupChoose', (code: string) => {
+  if (code) choosedPickup.value = code
+})
+onBeforeUnmount(() => {
+  uni.$off('pickupChoose')
+})
 
 const paid = ref(false)
 
@@ -93,6 +107,11 @@ const data = computed(() => {
     ...order.value,
     amountText: ((order.value?.amount || 0) / 100).toFixed(2),
   }
+})
+const amountView = computed(() => {
+  return radio.value === OrderPayway.提货码 || !data.value.amountText
+    ? '0.00'
+    : data.value.amountText
 })
 
 onLoad(async (query: any) => {
@@ -147,7 +166,7 @@ const pickupPayDisabled = computed(() => {
 const radio = ref(OrderPayway.余额支付)
 function changePayway(e: any) {
   if (e.currentTarget.dataset?.name === OrderPayway.提货码 && !choosedPickup.value)
-    return wx.navigateTo({ url: '/pages/pickup/pickup-choose' })
+    return wx.navigateTo({ url: pickupChoosedPath.value })
   if (balanceDisabled.value && e.currentTarget.dataset?.name === OrderPayway.余额支付) return
   radio.value = e.currentTarget.dataset?.name
 }
@@ -155,8 +174,9 @@ function changePayway(e: any) {
 function toBuy() {
   validateLogin() && wx.navigateTo({ url: '/pages/balance/balance-recharge' })
 }
-function toPickupChoose() {
-  wx.navigateTo({ url: '/pages/pickup/pickup-choose' })
+function toPickupChoose(e: Event) {
+  e.stopPropagation()
+  wx.navigateTo({ url: pickupChoosedPath.value })
 }
 
 /**
@@ -169,6 +189,16 @@ async function toPay() {
     Loading('支付中...')
     const { e } = await OrderAPIService.orderControllerBalancePay({
       orderId: data.value.id,
+    })
+    HideLoading()
+    if (e) return
+    paySuccess()
+  } else if (radio.value === OrderPayway.提货码) {
+    if (!choosedPickup.value) return Toast('请先选择提货码')
+    Loading('支付中...')
+    const { e } = await OrderAPIService.orderControllerPickupCodePay({
+      orderId: data.value.id,
+      pickupCode: choosedPickup.value,
     })
     HideLoading()
     if (e) return

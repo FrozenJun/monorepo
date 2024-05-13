@@ -13,35 +13,46 @@
       class="pickup-choose__field"
       :value="field"
       placeholder="手动输入"
+      clearable
       @change="field = $event.detail"
     />
 
     <div class="pickup-choose__bottom">
-      <van-button @tap="check">确认选择</van-button>
+      <van-button :disabled="isCheckDisabled" @tap="check">确认选择</van-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useAuthStore } from '@/store/auth'
-import { onShow } from '@dcloudio/uni-app'
+import { onLoad } from '@dcloudio/uni-app'
 import { computed } from 'vue'
 import { ref } from 'vue'
 import { PickupCodeAPIService } from '@/app/api/services/pickup-code-api'
+import { watch } from 'vue'
 
 const authStore = useAuthStore()
 const isLogin = computed(() => authStore.token)
 const radio = ref('')
 const field = ref('')
 const unusedPickups = ref<any[]>([])
-
-onShow(() => {
-  validateLogin() && getUnusedPickups()
+const isCheckDisabled = computed(() => !radio.value && !field.value)
+watch(field, (v) => {
+  if (v) radio.value = ''
 })
-async function getUnusedPickups() {
+
+onLoad(({ code }: any) => {
+  validateLogin() && getUnusedPickups(code)
+})
+async function getUnusedPickups(code: string) {
   const { e, data } = await PickupCodeAPIService.pickupCodeControllerGetMemberUnused()
   if (e || !data) return
-  unusedPickups.value = new Array(12).fill(data[0])
+  unusedPickups.value = data
+  if (data.find((i) => i.code === code)) {
+    radio.value = code
+  } else {
+    field.value = code
+  }
 }
 
 function validateLogin() {
@@ -53,8 +64,12 @@ function validateLogin() {
 }
 function changeCode(code: string) {
   radio.value = code
+  field.value = ''
 }
-function check() {}
+function check() {
+  uni.$emit('pickupChoose', radio.value || field.value)
+  wx.navigateBack()
+}
 </script>
 
 <style lang="scss">

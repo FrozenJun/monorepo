@@ -10,6 +10,7 @@ module.exports = {
 
   globals: {
     wx: 'readonly', // 或者 "writable"，取决于你是否需要写入 `wx`
+    uni: 'readonly', // 或者 "writable"，取决于你是否需要写入 `wx`
     getCurrentPages: 'readonly', // 或者 "writable"，取决于你是否需要写入 `wx`
   },
 
