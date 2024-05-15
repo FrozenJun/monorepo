@@ -69,7 +69,7 @@ import { useAuthStore } from '@/store/auth'
 import { OrderAPIService } from '@/app/api/services/order-api'
 import { Loading, HideLoading, Toast } from '@/utils/toast'
 import type { OrderDetailVo } from '@/app/api/models/order-detail-vo'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onShow } from '@dcloudio/uni-app'
 import { OrderPayway, OrderStatus } from '@/app/api/services/enum'
 import { useUserStore } from '@/store/user'
 import { payOrder } from '@/utils/pay'
@@ -115,20 +115,28 @@ const amountView = computed(() => {
 })
 
 onLoad(async (query: any) => {
-  validateLogin()
-  getUnusedPickups()
+  const isLogined = validateLogin()
   if (!query.q) return Toast('订单入口错误')
   const q = decodeURIComponent(query.q) // 获取到二维码原始链接内容
   const id = getQueryVariable(q, 'id')
   if (!id) return Toast('订单ID不存在')
   Loading('加载中...')
-  await Promise.all([getDetail(id), getUnusedPickups()])
+  isLogined ? await Promise.all([getDetail(id), getUnusedPickups()]) : await getDetail(id)
   HideLoading()
-  if (balanceDisabled.value) {
-    radio.value = pickupPayDisabled.value ? OrderPayway.微信支付 : OrderPayway.提货码
+  initPayway()
+})
+onShow(async () => {
+  if (isLogin.value && !unusedPickups.value.length) {
+    await getUnusedPickups()
+    initPayway()
   }
 })
 
+function initPayway() {
+  if (balanceDisabled.value) {
+    radio.value = pickupPayDisabled.value ? OrderPayway.微信支付 : OrderPayway.提货码
+  }
+}
 async function getDetail(id: string) {
   const { e, data } = await OrderAPIService.orderControllerGetOrderDetail({
     id,

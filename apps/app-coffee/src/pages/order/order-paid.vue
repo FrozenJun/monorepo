@@ -6,7 +6,7 @@
     <div class="desc">咖啡制作中，请稍等～</div>
 
     <van-cell-group class="cells">
-      <van-cell title="实付" :value="data.amountText" />
+      <van-cell v-if="order?.payway !== OrderPayway.提货码" title="实付" :value="data.amountText" />
       <van-cell title="支付方式" :value="data.paywayText" />
       <van-cell title="支付时间" :value="data.payTime" />
       <van-cell title="订单编号" :value="data.id" />
