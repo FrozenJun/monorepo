@@ -57,7 +57,7 @@
         <div class="unit">￥</div>
         <div class="number">{{ amountView }}</div>
       </div>
-      <van-button :disabled="paid" @tap="toPay">立即支付</van-button>
+      <van-button :disabled="paid" @tap="toPay">{{ paid ? '已支付' : '立即支付' }}</van-button>
     </div>
   </div>
 </template>
