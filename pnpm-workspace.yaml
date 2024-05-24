@@ -1,6 +1,8 @@
 packages:
   - 'apps/*' # 匹配要包含在工作区中的目录
   - 'packages/*' # 匹配要包含在工作区中的目录
+  - 'packages/abstract/*' # 匹配要包含在工作区中的目录
+  - 'packages/ui/*' # 匹配要包含在工作区中的目录
 
 # 可选的配置选项
 # registry: 'https://registry.npmjs.org' # 定义用于安装包的注册表
