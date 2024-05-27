@@ -22,3 +22,5 @@ dist.zip
 *.njsproj
 *.sln
 *.sw?
+
+apps/docs-core/docs/.vitepress/cache/deps
