@@ -1,5 +1,6 @@
 packages:
   - 'apps/*' # 匹配要包含在工作区中的目录
+  - 'webs/*' # 匹配要包含在工作区中的目录
   - 'packages/*' # 匹配要包含在工作区中的目录
   - 'packages/abstract/*' # 匹配要包含在工作区中的目录
   - 'packages/ui/*' # 匹配要包含在工作区中的目录
