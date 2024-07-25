@@ -87,7 +87,7 @@ class HttpService {
         await new Promise((resolve) => {
           setTimeout(() => {
             resolve(666)
-          }, config.delay * 1000)
+          }, config.delay! * 1000)
         })
       }
       return config.onResponse

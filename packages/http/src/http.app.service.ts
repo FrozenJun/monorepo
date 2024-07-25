@@ -1,6 +1,6 @@
 import Request, { HttpResponse } from 'luch-request'
 import { HTTP_DEFAULT_CONFIG } from './http.constant'
-import { HttpAppSendOption, HttpReturnType, HTTP_METHODS } from './http.dto'
+import { HttpAppSendOption, HttpReturnType, HTTP_METHODS } from './http.app.dto'
 import { transformParamsAndHeaders, urlVariableReplace } from './utils'
 import _ from 'lodash'
 import qs from 'qs'

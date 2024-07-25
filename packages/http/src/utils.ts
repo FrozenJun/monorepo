@@ -31,9 +31,16 @@ export function urlVariableReplace(option: HttpSendOption) {
   if (!matchs) return
   matchs.forEach((match) => {
     const key = match.substring(1, match.length - 1)
-    if (option.params && option.params[key]) {
+    if (option.params && !_.isNil(option.params[key])) {
       option.url = option.url!.replace(match, String(option.params[key]))
       Reflect.deleteProperty(option.params, key)
+    } else if (option.data && !_.isNil(option.data[key])) {
+      // 如果params里匹配不到，就在data中匹配
+      option.url = option.url!.replace(match, String(option.data[key]))
+      Reflect.deleteProperty(option.data, key)
+    } else if (option.pathParams && !_.isNil(option.pathParams[key])) {
+      // 仅在存在请求体并且请求体是数组时需要
+      option.url = option.url!.replace(match, String(option.pathParams[key]))
     }
   })
 }
@@ -57,6 +64,12 @@ export function transformParamsAndHeaders(httpSendOption: HttpSendOption) {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
       })
       httpSendOption.data = qs.stringify(data)
+      break
+    default:
+      // 自定义
+      _.assign(headers, {
+        'Content-Type': bodyType,
+      })
   }
   return httpSendOption
 }
