@@ -46,9 +46,9 @@ onMounted(() => {
       // 模拟生成的节点位置，转化为经纬度
       const nodePositions = graph.graphData().nodes.map((node) => ({
         id: node.id,
-        x: 120.1551 + (Math.random() - 0.5) * 0.1, // 杭州的经度，加随机偏移
-        y: 30.2741 + (Math.random() - 0.5) * 0.1, // 杭州的纬度，加随机偏移
-        z: 1000 + Math.random() * 500, // 随机高度在1000到1500之间
+        x: 120.1551 + (node.x || 0) * 0.001, // 杭州的经度，加随机偏移
+        y: 30.2741 + (node.y || 0) * 0.001, // 杭州的纬度，加随机偏移
+        z: 100 + (node.z || 0) * 10, // 随机高度在1000到1500之间
       }))
       console.log(nodePositions)
 
@@ -77,7 +77,7 @@ onMounted(() => {
                 target.y,
                 target.z,
               ]),
-              width: 5,
+              width: 1,
               material: Cesium.Color.BLUE,
             },
           })
