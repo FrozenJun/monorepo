@@ -1,0 +1,32 @@
+{
+  "name": "common-shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "@geoman-io/leaflet-geoman-free": "^2.14.2",
+    "@stomp/stompjs": "^7.0.0",
+    "@vue-leaflet/vue-leaflet": "^0.6.1",
+    "cesium": "^1.118.0",
+    "common-base": "workspace:*",
+    "common-core": "workspace:*",
+    "leaflet": "^1.7.1",
+    "leaflet-easybutton": "^2.4.0",
+    "leaflet.markercluster": "^1.5.3",
+    "lodash": "^4.17.21",
+    "reconnecting-websocket": "^4.4.0",
+    "sockjs-client": "^1.6.1",
+    "vue": "3.3.4",
+    "vue-cesium": "^3.2.8"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.195"
+  }
+}

@@ -1,0 +1,17 @@
+import { <%= classify(name) %>Props } from 'ant-design-vue'
+import { ElCommonAdapter } from '../../utils/dtos'
+
+export type <%= classify(name) %>Slots = 'default'
+export const <%= camelize(name) %>Slots = ['default']
+
+export const <%= classify(name) %>BindsOmitKeys: (keyof <%= classify(name) %>Adapter)[] = []
+export interface <%= classify(name) %>Adapter
+  extends Partial<
+    <%= classify(name) %>Props & ElCommonAdapter<<%= classify(name) %>Adapter, <%= classify(name) %>Output, <%= classify(name) %>Slots>
+  > {}
+
+export interface <%= classify(name) %>Output {
+}
+
+export const <%= underscore(name).toLocaleUpperCase() %>_DEFAULT: <%= classify(name) %>Adapter = {
+}

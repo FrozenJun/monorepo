@@ -1,0 +1,127 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4584273 */
+  src: url('iconfont.woff2?t=1719972420031') format('woff2'),
+       url('iconfont.woff?t=1719972420031') format('woff'),
+       url('iconfont.ttf?t=1719972420031') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-weixing:before {
+  content: "\e618";
+}
+
+.icon-wurenji:before {
+  content: "\e674";
+}
+
+.icon-d--:before {
+  content: "\e67e";
+}
+
+.icon-d--1:before {
+  content: "\e67f";
+}
+
+.icon-layers:before {
+  content: "\e617";
+}
+
+.icon-video:before {
+  content: "\e613";
+}
+
+.icon-wrench:before {
+  content: "\e614";
+}
+
+.icon-send1:before {
+  content: "\e615";
+}
+
+.icon-file-copy:before {
+  content: "\e616";
+}
+
+.icon-GPSdingwei:before {
+  content: "\e600";
+}
+
+.icon-a-adduser:before {
+  content: "\e601";
+}
+
+.icon-cloud-upload:before {
+  content: "\e602";
+}
+
+.icon-cloud-download:before {
+  content: "\e603";
+}
+
+.icon-expand:before {
+  content: "\e604";
+}
+
+.icon-RTKxinhao:before {
+  content: "\e605";
+}
+
+.icon-yuanchengguanli:before {
+  content: "\e606";
+}
+
+.icon-a-dianchi11:before {
+  content: "\e607";
+}
+
+.icon-wifi:before {
+  content: "\e608";
+}
+
+.icon-send:before {
+  content: "\e609";
+}
+
+.icon-shengchan:before {
+  content: "\e60a";
+}
+
+.icon-branches:before {
+  content: "\e60b";
+}
+
+.icon-jieruliucheng:before {
+  content: "\e60c";
+}
+
+.icon-setting:before {
+  content: "\e60d";
+}
+
+.icon-batchfolding-outlined:before {
+  content: "\e60e";
+}
+
+.icon-a-appstore:before {
+  content: "\e60f";
+}
+
+.icon-edit-square:before {
+  content: "\e610";
+}
+
+.icon-select:before {
+  content: "\e611";
+}
+
+.icon-report-outlined:before {
+  content: "\e612";
+}
+

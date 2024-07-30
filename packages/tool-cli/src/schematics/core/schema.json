@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsCore",
+  "title": "创建core",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "core的名称",
+      "x-prompt": "请输入core的名称",
+      "alias": "n"
+    },
+    "type": {
+      "type": "string",
+      "minLength": 1,
+      "enum": ["base", "form", "combine"],
+      "default": "base",
+      "description": "core的类型",
+      "x-prompt": "请输入core的类型",
+      "alias": "t"
+    }
+  },
+  "required": ["name"]
+}

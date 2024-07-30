@@ -1,0 +1,13 @@
+@import 'common-core/styles/index.scss';
+@import '../assets/fonts/fonts.css';
+@import '../assets/fonts/iconfont.css';
+
+@import '//at.alicdn.com/t/c/font_4584273_1vihkmxjhhe.css';
+
+.situation-title {
+  font-family: YouSheBiaoTiHei;
+  background: linear-gradient(180deg, #ffffff 0%, #b4e8ff 100%);
+  -webkit-background-clip: text; /* 设置背景裁剪为文本，使渐变只在文字区域显示 */
+  color: transparent; /* 隐藏实际文字颜色，使渐变可见 */
+  -webkit-text-fill-color: transparent; /* 隐藏实际文字颜色，使渐变可见 */
+}

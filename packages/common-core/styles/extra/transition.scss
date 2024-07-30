@@ -1,0 +1,32 @@
+.slik-right-in-enter-active,
+.slik-right-in-leave-active {
+  transition: right 0.5s ease;
+}
+
+.slik-right-in-enter-from,
+.slik-right-in-leave-to {
+  opacity: 0;
+  right: -600px;
+}
+
+.slik-left-in-enter-active,
+.slik-left-in-leave-active {
+  transition: left 0.5s ease;
+}
+
+.slik-left-in-enter-from,
+.slik-left-in-leave-to {
+  opacity: 0;
+  left: -600px;
+}
+
+.ceiling-enter-active,
+.ceiling-leave-active {
+  transition: height 1s ease, opacity 1s ease;
+}
+
+.ceiling-enter-from,
+.ceiling-leave-to {
+  opacity: 0;
+  height: 0;
+}

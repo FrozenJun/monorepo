@@ -1,0 +1,5 @@
+export default {
+  name: '<%= classify(name) %>',
+  path: '/<%= dasherize(name) %>',
+  component: () => import(/* webpackChunkName: "<%= dasherize(name) %>" */ './index.vue'),
+}

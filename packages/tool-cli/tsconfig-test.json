@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "inlineSourceMap": true,
+    "sourceRoot": ".",
+    // Inline sources are necessary for our tests to show the proper sources, since we are using
+    // Istanbul (not Constantinople) as well, and applying both source maps to get the original
+    // source in devtools.
+    "inlineSources": true,
+    "types": ["node", "jest"],
+    "baseUrl": "tsconfig",
+    "lib": ["es2018", "dom"],
+    "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    // "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "es6"
+  }
+}

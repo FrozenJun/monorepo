@@ -1,0 +1,82 @@
+<script setup lang="ts">
+import Cs from 'common-core/combine/cs/cs.vue'
+import Ct from 'common-core/combine/ct/ct.vue'
+import Co from 'common-core/combine/co/co.vue'
+import Cmf from 'common-core/combine/cmf/cmf.vue'
+import ViewContainer from '@/components/layouts/view-container/index.vue'
+import { CtAdapter } from 'common-core/combine/ct/ct.adapter'
+import { CsAdapter } from 'common-core/combine/cs/cs.adapter'
+import { CoAdapter } from 'common-core/combine/co/co.adapter'
+import { CmfAdapter } from 'common-core/combine/cmf/cmf.adapter'
+import { reactive } from 'vue'
+import t from '@/app/locales'
+
+const cs = reactive<CsAdapter>({
+  form: {
+    layout: 'inline',
+    formItems: [
+      {
+        label: t('名称'),
+        prop: 'name',
+      },
+    ],
+    models: {
+      name: '',
+    },
+  },
+})
+const co = reactive<CoAdapter>({
+  operateButtons: [],
+})
+const ct = reactive<CtAdapter>({
+  dataSourceAsync: {},
+  columns: [
+    {
+      title: t('标签'),
+      dataIndex: 'name',
+    },
+    {
+      title: t('操作'),
+      type: 'operate',
+      operateRender({ record }) {
+        const { id } = record
+        return []
+      },
+    },
+  ],
+})
+const cmf = reactive<CmfAdapter>({
+  modal: {
+    title: t('新增'),
+  },
+  form: {
+    itemWidth: '100%',
+    formItems: [
+      { 
+        label: t('名称'), 
+        prop: 'name', 
+        rules: 'required',
+      },
+    ],
+    models: {
+      name: '',
+    },
+  },
+})
+</script>
+
+<template>
+  <ViewContainer class="<%= dasherize(name) %>">
+    <Cs :c="cs"></Cs>
+    <Co :c="co"></Co>
+    <Ct :c="ct"></Ct>
+    <Cmf :c="cmf"></Cmf>
+  </ViewContainer>
+</template>
+
+<style lang="scss">
+@import 'common-core/styles/export.scss';
+
+@include b(<%= dasherize(name) %>) {
+}
+</style>

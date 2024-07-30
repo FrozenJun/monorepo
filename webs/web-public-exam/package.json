@@ -6,14 +6,33 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cli": "cvue",
+    "gen-api": "ts-node --project ../../packages/tool-gen-api/tsconfig.json api.config.ts"
   },
   "dependencies": {
-    "vue": "^3.4.31"
+    "3d-force-graph": "^1.73.3",
+    "@ant-design/icons-vue": "^7.0.1",
+    "ant-design-vue": "^3.2.20",
+    "cesium": "^1.119.0",
+    "common-core": "workspace:*",
+    "common-shared": "workspace:*",
+    "loadsh": "^0.0.4",
+    "pinia": "^2.0.28",
+    "tool-cli": "workspace:*",
+    "tool-gen-api": "workspace:*",
+    "vue": "^3.4.31",
+    "vue-cesium": "^3.2.8",
+    "vue-router": "^4.4.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.195",
     "@vitejs/plugin-vue": "^5.0.5",
+    "ng-openapi-gen": "^0.25.1",
+    "sass": "^1.75.0",
+    "sass-loader": "^14.2.1",
     "typescript": "^5.2.2",
+    "unocss": "^0.61.8",
     "vite": "^5.3.4",
     "vue-tsc": "^2.0.24"
   }

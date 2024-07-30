@@ -1,0 +1,78 @@
+{
+  "身份证格式不正确": {
+    "zh-CN": "身份证格式不正确",
+    "en-US": "Incorrect ID format"
+  },
+  "手机号输入不正确": {
+    "zh-CN": "手机号输入不正确",
+    "en-US": "Incorrect mobile phone number input"
+  },
+  "固定电话输入不正确": {
+    "zh-CN": "固定电话输入不正确",
+    "en-US": "Incorrect input of fixed telephone"
+  },
+  "只能是正整数": {
+    "zh-CN": "只能是正整数",
+    "en-US": "It can only be positive integer"
+  },
+  "只能是正实数": {
+    "zh-CN": "只能是正实数",
+    "en-US": "It can only be positive"
+  },
+  "只能是非负实数": {
+    "zh-CN": "只能是非负实数",
+    "en-US": "It can only be non -negative real number"
+  },
+  "只能是汉字": {
+    "zh-CN": "只能是汉字",
+    "en-US": "Only Chinese characters"
+  },
+  "只能是数字或者大写字母": {
+    "zh-CN": "只能是数字或者大写字母",
+    "en-US": "It can only be numbers or capital letters"
+  },
+  "只能由汉字、数字、大小写字母、—组成": {
+    "zh-CN": "只能由汉字、数字、大小写字母、—组成",
+    "en-US": "It can only be composed of Chinese characters, numbers, and lowercase letters, —"
+  },
+  "不能包含数字": {
+    "zh-CN": "不能包含数字",
+    "en-US": "Cannot contain numbers"
+  },
+  "不能包含特殊字符": {
+    "zh-CN": "不能包含特殊字符",
+    "en-US": "Cannot include special characters"
+  },
+  "请输入正确的护照": {
+    "zh-CN": "请输入正确的护照",
+    "en-US": "Please enter the correct passport"
+  },
+  "文件名不合法": {
+    "zh-CN": "文件名不合法",
+    "en-US": "The file name is illegal"
+  },
+  "请输入正确的IP地址": {
+    "zh-CN": "请输入正确的IP地址",
+    "en-US": "Please enter the correct IP address"
+  },
+  "请输入正确的IP地址和端口号": {
+    "zh-CN": "请输入正确的IP地址和端口号",
+    "en-US": "Please enter the correct IP address and port number"
+  },
+  "确认密码和密码不一致": {
+    "zh-CN": "确认密码和密码不一致",
+    "en-US": "Confirm that the password is inconsistent with the password"
+  },
+  "密码至少8位且包含数字字母特殊字符": {
+    "zh-CN": "密码至少8位且包含数字字母特殊字符",
+    "en-US": "The password is at least 8 digits and contains special characters"
+  },
+  "请输入正确车牌号": {
+    "zh-CN": "请输入正确车牌号",
+    "en-US": "Please enter the correct license plate number"
+  },
+  "至少需要有一个值": {
+    "zh-CN": "至少需要有一个值",
+    "en-US": "At least one value requires"
+  }
+}

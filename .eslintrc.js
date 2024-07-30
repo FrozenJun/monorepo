@@ -29,6 +29,8 @@ module.exports = {
   rules: {
     // https://eslint.vuejs.org/rules
     'vue/attributes-order': 'off',
+    'vue/attribute-hyphenation': 'off',
+    'vue/v-on-event-hyphenation': 'off',
     'vue/no-reserved-component-names': 'off',
     'vue/order-in-components': 'off',
     'vue/multi-word-component-names': 'off',

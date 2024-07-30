@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsDependent",
+  "title": "创建dependent",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "dependent的名称",
+      "x-prompt": "请输入dependent的名称",
+      "alias": "n"
+    },
+    "hostPath": {
+      "type": "string",
+      "minLength": 1,
+      "description": "组件所依附的页面，页面组件或者布局组件的路径",
+      "x-prompt": "请输入组件所在页面、组件、文件夹的路径(如：src/views/demo)",
+      "alias": "p"
+    }
+  },
+  "required": ["name"]
+}

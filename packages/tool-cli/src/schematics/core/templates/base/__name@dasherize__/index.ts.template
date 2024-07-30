@@ -1,0 +1,12 @@
+import { COMPONENT_TYPE } from '../../utils/constants/component';
+import { <%= classify(name) %>Adapter } from './<%= dasherize(name) %>.adapter'
+import <%= classify(name) %> from './<%= dasherize(name) %>.vue'
+import { App } from 'vue'
+import { setComponentConfig } from '../../utils/config'
+
+<%= classify(name) %>.install = (app: App, opt: <%= classify(name) %>Adapter) => {
+  setComponentConfig(COMPONENT_TYPE.<%= camelize(name) %>, opt)
+  app.component(<%= classify(name) %>.name, <%= classify(name) %>)
+}
+
+export { <%= classify(name) %> }

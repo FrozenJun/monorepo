@@ -1,0 +1,30 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "view": {
+      "description": "在views文件夹或者module中创建view文件夹",
+      "factory": "./schematics/view/index#view",
+      "schema": "./schematics/view/schema.json"
+    },
+    "module": {
+      "description": "在views文件夹中创建module文件夹",
+      "factory": "./schematics/module/index#module",
+      "schema": "./schematics/module/schema.json"
+    },
+    "dependent": {
+      "description": "创建有依赖的页面组件",
+      "factory": "./schematics/dependent/index#dependentComponent",
+      "schema": "./schematics/dependent/schema.json"
+    },
+    "core": {
+      "description": "创建core通用组件文件夹",
+      "factory": "./schematics/core/index#main",
+      "schema": "./schematics/core/schema.json"
+    },
+    "custom": {
+      "description": "创建自定义文件夹",
+      "factory": "./schematics/custom/index#custom",
+      "schema": "./schematics/custom/schema.json"
+    }
+  }
+}

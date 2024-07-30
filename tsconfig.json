@@ -15,15 +15,15 @@
     "skipLibCheck": true,
     "noImplicitAny": false
   },
-  "include": [
-    "packages/**/*.ts",
-    "packages/**/*.d.ts",
-    "packages/**/*.tsx",
-    "packages/**/*.vue",
-    "apps/**/*.ts",
-    "apps/**/*.d.ts",
-    "apps/**/*.tsx",
-    "apps/**/*.vue"
-  ],
+  // "include": [
+  //   "packages/**/*.ts",
+  //   "packages/**/*.d.ts",
+  //   "packages/**/*.tsx",
+  //   "packages/**/*.vue",
+  //   "apps/**/*.ts",
+  //   "apps/**/*.d.ts",
+  //   "apps/**/*.tsx",
+  //   "apps/**/*.vue"
+  // ],
   "exclude": ["node_modules", "dist"]
 }

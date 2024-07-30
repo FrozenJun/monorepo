@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SchematicsView",
+  "title": "创建view",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "view的名称",
+      "x-prompt": "请输入view的名称",
+      "alias": "n"
+    },
+    "templatePath": {
+      "description": "自定义模板文件的路径",
+      "type": "string"
+    },
+    "ignoreRouteInject": {
+      "description": "忽略路由相关操作",
+      "type": "boolean"
+    }
+  },
+  "required": ["name"]
+}

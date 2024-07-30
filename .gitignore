@@ -24,3 +24,6 @@ dist.zip
 *.sw?
 
 apps/docs-core/docs/.vitepress/cache/deps
+
+
+webs/*/public/Cesium

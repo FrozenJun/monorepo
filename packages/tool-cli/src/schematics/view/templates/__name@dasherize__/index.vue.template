@@ -1,0 +1,15 @@
+<script setup lang="ts">
+</script>
+
+<template>
+  <div class="<%= dasherize(name) %>">
+    <%= classify(name) %> Working!
+  </div>
+</template>
+
+<style lang="scss">
+@import 'common-core/styles/export.scss';
+
+@include b(<%= dasherize(name) %>) {
+}
+</style>

@@ -1,0 +1,87 @@
+<template>
+  <<%= classify(name) %>
+    :class="className"
+    :ref="$options.name"
+    v-bind="binds"
+    v-model:value="attrs.modelValue"
+  >
+    <template
+      v-for="slots in computedSlots($slots)"
+      #[slots.type]="scope"
+      :key="slots.type"
+    >
+      <slot
+        v-for="name in slots.names"
+        :name="name"
+        v-bind="scope"
+        :key="name"
+      ></slot>
+    </template>
+  </<%= classify(name) %>>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType, reactive } from 'vue'
+import { 
+  <%= classify(name) %>Adapter,
+  <%= classify(name) %>BindsOmitKeys,
+  <%= underscore(name).toLocaleUpperCase() %>_DEFAULT,
+  <%= camelize(name) %>Slots,
+} from './<%= dasherize(name) %>.adapter'
+import { COMPONENT_NAME, COMPONENT_TYPE } from '../../utils/constants/component'
+import { useProvider } from '../../utils/hooks/useProvider'
+import { useCommonSetup } from '../../utils/hooks/useCommonSetup'
+import { useComputeAttrs } from '../../utils/hooks/useComputeAttrs'
+import { use<%= classify(name) %> } from './<%= dasherize(name) %>.use'
+import { <%= classify(name) %> } from 'ant-design-vue'
+import { <%= camelize(name) %>Props } from 'ant-design-vue/lib/<%= dasherize(name) %>/<%= camelize(name) %>'
+import { dasherize } from 'commom-base/utils/string'
+
+export default defineComponent({
+  name: COMPONENT_NAME.<%= camelize(name) %>,
+  inheritAttrs: false,
+  components: { <%= classify(name) %> },
+  emits: ['output-change', 'update:modelValue'],
+  props: {
+    c: {
+      type: Object as PropType<<%= classify(name) %>Adapter>,
+      default: () => (reactive({}))
+    },
+    n: {
+      type: String
+    },
+    modelValue: {
+      type: String,
+      default: '',
+    },
+    ...<%= camelize(name) %>Props(),
+  },
+  setup(props, ctx) {
+    const type = COMPONENT_TYPE.<%= camelize(name) %>
+    const className = dasherize(COMPONENT_NAME.<%= camelize(name) %>)
+
+    /** 合并配置，获取attrs */
+    const { attrs, binds } = useComputeAttrs<<%= classify(name) %>Adapter>({
+      props,
+      defaultOption: <%= underscore(name).toLocaleUpperCase() %>_DEFAULT,
+      type,
+      omitKeys: <%= classify(name) %>BindsOmitKeys
+    })
+
+    /** 组件输出 */
+    const { output } = use<%= classify(name) %>({ attrs, ctx, props })
+
+    /** 注册、注销组件 */
+    useProvider({ attrs, output, type, ctx })
+
+    /** 组件通用setup */
+    const { computedSlots } = useCommonSetup({
+      attrs,
+      output,
+      slotTypes: <%= camelize(name) %>Slots
+    })
+
+    return { className, attrs, binds, computedSlots }
+  }
+})
+</script>

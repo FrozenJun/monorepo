@@ -1,0 +1,34 @@
+{
+  "共": {
+    "zh-CN": "共",
+    "en-US": "Total"
+  },
+  "条": {
+    "zh-CN": "条",
+    "en-US": "Items"
+  },
+  "请输入": {
+    "zh-CN": "请输入",
+    "en-US": "Please input"
+  },
+  "请选择": {
+    "zh-CN": "请选择",
+    "en-US": "Please select"
+  },
+  "确定": {
+    "zh-CN": "确定",
+    "en-US": "Ok"
+  },
+  "关闭": {
+    "zh-CN": "关闭",
+    "en-US": "Cancel"
+  },
+  "图片预览": {
+    "zh-CN": "图片预览",
+    "en-US": "Picture preview"
+  },
+  "响应超时": {
+    "zh-CN": "响应超时",
+    "en-US": "Response timeout"
+  }
+}

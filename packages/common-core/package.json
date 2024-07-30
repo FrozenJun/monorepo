@@ -1,0 +1,33 @@
+{
+  "name": "common-core",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "@vee-validate/i18n": "^4.5.11",
+    "@vee-validate/rules": "^4.5.11",
+    "ant-design-vue": "^3.2.20",
+    "axios": "^1.4.0",
+    "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.7",
+    "lodash": "^4.17.21",
+    "luch-request": "^3.1.1",
+    "qs": "^5.2.1",
+    "vee-validate": "^4.5.11",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
+    "@types/leaflet": "^1.9.0",
+    "@types/lodash": "^4.14.195",
+    "@types/node": "^20.3.3",
+    "@types/qs": "^6.9.7",
+    "common-base": "workspace:^",
+    "typescript": "^5.1.6"
+  }
+}

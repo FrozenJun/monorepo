@@ -1,0 +1,29 @@
+{
+  "name": "tool-cli",
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "A blank schematics",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "keywords": [
+    "schematics"
+  ],
+  "main": "index.ts",
+  "types": "index.d.ts",
+  "bin": {
+    "cvue": "src/command/main"
+  },
+  "author": "si",
+  "license": "MIT",
+  "schematics": "./src/collection.json",
+  "devDependencies": {
+    "@angular-devkit/core": "^8.3.4",
+    "@angular-devkit/schematics": "^8.3.4",
+    "debug": "^4.3.4",
+    "inquirer": "6.5.1",
+    "lodash": "^4.17.21",
+    "minimist": "1.2.3",
+    "symbol-observable": "1.2.0",
+    "typescript": "^5.1.6"
+  }
+}

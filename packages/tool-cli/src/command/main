@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+'use strict'
+
+// 添加对ts文件的解析
+require('../utils/bootstrap-local')
+
+// 检测NodeJs版本.
+const version = process.version.substr(1).split('.')
+if (Number(version[0]) < 10 || (Number(version[0]) === 10 && Number(version[1]) < 9)) {
+  process.stderr.write(
+    'Node.js Verson:' +
+      process.version +
+      'is too low。\n' +
+      'It`s recommended to update to 10.9 or higher.'
+  )
+
+  // process.exit(3);
+}
+
+// 入口文件
+require('./index.ts')

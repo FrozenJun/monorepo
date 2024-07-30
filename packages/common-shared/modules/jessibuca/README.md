@@ -1,0 +1,1 @@
+## decoder.js decoder.wasm需要放在根目录的public文件夹中

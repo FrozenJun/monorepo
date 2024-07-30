@@ -1,0 +1,58 @@
+{
+  "添加更多信息": {
+    "zh-CN": "添加更多信息",
+    "en-US": "Add more information"
+  },
+  "确定删除？": {
+    "zh-CN": "确定删除？",
+    "en-US": "Confirm delete?"
+  },
+  "确定": {
+    "zh-CN": "确定",
+    "en-US": "Ok"
+  },
+  "取消": {
+    "zh-CN": "取消",
+    "en-US": "Cancel"
+  },
+  "删除": {
+    "zh-CN": "删除",
+    "en-US": "Delete"
+  },
+  "更多": {
+    "zh-CN": "更多",
+    "en-US": "More"
+  },
+  "编辑": {
+    "zh-CN": "编辑",
+    "en-US": "Edit"
+  },
+  "已选": {
+    "zh-CN": "已选",
+    "en-US": "Selected"
+  },
+  "人": {
+    "zh-CN": "人",
+    "en-US": "People"
+  },
+  "添加下一行数据": {
+    "zh-CN": "添加下一行数据",
+    "en-US": "Add the next line of data"
+  },
+  "搜索": {
+    "zh-CN": "搜索",
+    "en-US": "Search"
+  },
+  "重置": {
+    "zh-CN": "重置",
+    "en-US": "Reset"
+  },
+  "未配置数据": {
+    "zh-CN": "未配置数据",
+    "en-US": "Unconfigured data"
+  },
+  "清空": {
+    "zh-CN": "清空",
+    "en-US": "Clear"
+  }
+}

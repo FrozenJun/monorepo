@@ -1,0 +1,19 @@
+import { <%= classify(name) %>Props } from 'ant-design-vue'
+import { ElFormCtrlCommonAdapter } from '../../utils/dtos'
+
+export type <%= classify(name) %>Slots = 'default'
+export const <%= camelize(name) %>Slots = ['default']
+
+export const <%= classify(name) %>BindsOmitKeys: (keyof <%= classify(name) %>Adapter)[] = ['modelValue']
+export interface <%= classify(name) %>Adapter
+  extends Partial<
+    <%= classify(name) %>Props & ElFormCtrlCommonAdapter<<%= classify(name) %>Adapter, <%= classify(name) %>Output, <%= classify(name) %>Slots>
+  > {
+  modelValue?: string
+}
+
+export interface <%= classify(name) %>Output {
+}
+
+export const <%= underscore(name).toLocaleUpperCase() %>_DEFAULT: <%= classify(name) %>Adapter = {
+}
