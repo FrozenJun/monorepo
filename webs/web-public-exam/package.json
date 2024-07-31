@@ -19,6 +19,7 @@
     "common-shared": "workspace:*",
     "loadsh": "^0.0.4",
     "pinia": "^2.0.28",
+    "three": "^0.167.0",
     "tool-cli": "workspace:*",
     "tool-gen-api": "workspace:*",
     "vue": "^3.4.31",
