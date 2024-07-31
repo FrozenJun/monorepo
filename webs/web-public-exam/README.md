@@ -1,5 +1,13 @@
-# Vue 3 + TypeScript + Vite
+# 反馈机制
+- 做题、学习概念、甚至是点击都会增加主题分、总分、进度条等反馈
+    - 提供排行榜，成就等机制
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+# 设计
+- 核心是题
+    - 题包含共性，知识点等
+- 知识点、题存在改进按钮，能扩展、修改内容
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+
+# 例子
+- 图形推理
+    - 按类型分

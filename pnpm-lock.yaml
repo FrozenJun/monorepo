@@ -405,6 +405,9 @@ importers:
       pinia:
         specifier: ^2.0.28
         version: 2.0.28(typescript@5.2.2)(vue@3.4.34(typescript@5.2.2))
+      three:
+        specifier: ^0.167.0
+        version: 0.167.0
       tool-cli:
         specifier: workspace:*
         version: link:../../packages/tool-cli
@@ -6603,6 +6606,7 @@ packages:
   read-package-json@6.0.4:
     resolution: {integrity: sha512-AEtWXYfopBj2z5N5PbkAOeNHRPUg5q+Nen7QLxV8M2zJq1ym6/lCz3fYNTCXe19puu2d06jfHhrP7v/S2PtMMw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    deprecated: This package is no longer supported. Please use @npmcli/package-json instead.
 
   read-pkg-up@3.0.0:
     resolution: {integrity: sha512-YFzFrVvpC6frF1sz8psoHDBGF7fLPc+llq/8NB43oagqWkx8ar5zYtsTORtOjw9W2RHLpWP+zTWwBvf1bCmcSw==}
