@@ -1,21 +1,71 @@
+interface Note {
+  id: string
+  name: string
+  content: string
+  origin: string[] // 因，来源列表
+  result: string[] // 果，结果列表
+  children?: string[] // 子节点
+  parents?: string[] // 父节点
+  tags: string[] // 标签
+}
+
+export const notes: Note[] = [
+  {
+    id: '1',
+    name: 'DHCP',
+    content: 'xxx',
+    origin: ['ip', 'ip分配限制'],
+    result: ['自动ip分配'],
+    tags: [],
+    children: ['1'],
+    parents: [],
+  },
+  {
+    id: '2',
+    name: 'ip',
+    content: 'xxx',
+    origin: ['互联网'],
+    result: ['网络协议'],
+    children: ['1'],
+    parents: [],
+    tags: [],
+  },
+]
+
 export const data = [
   {
     id: 1,
-    name: '<p style="font-style: italic ">Node 1</p>',
+    name: '如何打造笔记系统',
+    content: `
+    1. 目的：提示解决问题的能力`,
+    tags: ['笔记'],
     value: 10,
     color: '#00dd00',
     includes: [2, 3],
   },
   {
     id: 2,
-    name: '<p style="font-style: italic ">Node 2</p>',
+    name: '什么是问题',
+    content: `
+    1.问题是果，答案是因，最底层是这个世界的运行规则，最外层的是人性的选择
+    2.人们在已有的信息中寻找答案，而不是创造答案，造新车新房，参与行业提供已有的差异化的解决方案
+    3.难以获取的信息，难以具象化的抽象，具有价值
+    4.如果无法获取时效性，封闭性的信息，只能通过将抽象具象化换取价值
+    5.人性是因，产生了需求
+    6.人感觉良好是当前的需求被满足，或者未来的预期变好，或者不好的情况减轻与消失
+    7.满足情绪需求需要人性，满足物质需求需要世界规则
+    8.现实的结构与关系引出了`,
+    tags: ['问题'],
     value: 20,
     color: '#00dd00',
     includes: [4, 5],
   },
   {
     id: 3,
-    name: '<p style="font-style: italic ">Node 3</p>',
+    name: '笔记内容',
+    content: `
+    1. 到底是什么需要笔记，除了确定的可查阅的不便的信息
+    2. 如DHCP,我知道这个协议的属性、意义、特征，就可以判断出一些因为DHCP引起的问题，以此视为一种作用，那么我需要记录的是什么？它的因与果`,
     value: 30,
     color: '#00dd00',
     includes: [6, 7],
